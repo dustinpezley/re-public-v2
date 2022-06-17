@@ -1,19 +1,11 @@
+var address = ''
 
-
-civicKey = 'AIzaSyABhC00ndBtZ48N0AC1XfQG911F09gmit8';
+const civicKey = 'AIzaSyABhC00ndBtZ48N0AC1XfQG911F09gmit8';
 
 function getVoterQueryInfo() {
-  let apiUrl = "https://www.googleapis.com/civicinfo/v2/voterInfoQuery?key="+civicKey;
+  let apiUrl = "https://civicinfo.googleapis.com/civicinfo/v2/representatives?address=25%20W%20Rose%20Ave%20Webster%20Groves%2C%20MO&includeOffices=true&key="+civicKey;
 
-  fetch(apiUrl,{
-    method:"POST",
-    body: JSON.stringify(data),
-    mode: "no-cors",
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  }
-  ).then(function(response) {
+  fetch(apiUrl,{mode: "no-cors"}).then(function(response) {
     if(response.ok){
       console.log(data);
     }
