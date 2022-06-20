@@ -1,7 +1,7 @@
 // Element variables
 var localHeaderEl = $('#local-info');
 var stateHeaderEl = $('#state-info');
-var federalHeaderEl = $('federal-info');
+var federalHeaderEl = $('#federal-info');
 var searchInputEl = ('#search-input');
 var localBoxEl = $('#local-container');
 var stateBoxEl = $('#state-container');
@@ -50,50 +50,115 @@ function getRepresentatives(address) {
       response.json().then(function(data){
         console.log(data);
         for(var i=0;i<data.offices.length;i++) {
-            officeName = data.offices[i].name;
-            officialName = data.officials[data.offices[i].officialIndices[0]].name;
-            party = data.officials[data.offices[i].officialIndices[0]].party;
+          officeName = data.offices[i].name;
+          officialName = data.officials[data.offices[i].officialIndices[0]].name;
+          party = data.officials[data.offices[i].officialIndices[0]].party;
 
-            if(!data.officials[data.offices[i].officialIndices[0]].address) {
-              addressLine1='No address information available';
-            } else {
-              addressLine1 = this[0].line1;
-              addressCity = this[0].city;
-              addressState = this[0].state;
-              addressZip = this[0].zip;
-            }
-            
-            phone = data.officials[data.offices[i].officialIndices[0]].phones[0];
-            
-            if(!data.officials[data.offices[i].officialIndices[0]].emails) {
-              email = 'No email available';
-            } else {
-              email = this[0];
-            }
-      
-            if(!data.officials[data.offices[i].officialIndices[0]].urls) {
-              officialWebsite = 'No website available';
-            } else {
-              officialWebsite = this[0];
-            }
-      
-            if(!data.officials[data.offices[i].officialIndices[0]].urls) {
-              wikiSite = 'No website available';
-            } else {
-              wikiSite= this[1];
-            }
-      
-            for(let i=0;i<data.officials[data.offices[i].officialIndices[0]].channels.length;i++) {
-              if(this.type = 'Facebook') {
-                facebookId = 'facebook.com/'+this.id;
-              } else if(this.type='Twitter') {
-                twitterId = 'twitter.com/'+this.id;
+          if(!data.officials[data.offices[i].officialIndices[0]].address) {
+            addressLine1='No address information available';
+          } else {
+            addressLine1 = data.officials[data.offices[i].officialIndices[0]].address[0].line1;
+            addressCity = data.officials[data.offices[i].officialIndices[0]].address[0].city;
+            addressState = data.officials[data.offices[i].officialIndices[0]].address[0].state;
+            addressZip = data.officials[data.offices[i].officialIndices[0]].address[0].zip;
+          }
+          
+          phone = data.officials[data.offices[i].officialIndices[0]].phones[0];
+          
+          if(!data.officials[data.offices[i].officialIndices[0]].emails) {
+            email = 'No email available';
+          } else {
+            email = data.officials[data.offices[i].officialIndices[0]].emails[0];
+          }
+    
+          if(!data.officials[data.offices[i].officialIndices[0]].urls) {
+            officialWebsite = 'No website available';
+          } else {
+            officialWebsite = data.officials[data.offices[i].officialIndices[0]].urls[0];
+          }
+    
+          if(!data.officials[data.offices[i].officialIndices[0]].urls) {
+            wikiSite = 'No website available';
+          } else {
+            wikiSite= data.officials[data.offices[i].officialIndices[0]].urls[1];
+          }
+          
+
+          //   for(let j=0;j<data.officials[data.offices[i].officialIndices[0]].channels.length;i++) {
+          //     if(!data.officials[data.offices[i].officialIndices[0]].channels) {
+          //       facebookId = 'Not available';
+          //       twitterId = 'Not available';
+          //       continue;
+          //     } else {
+          //     var channelType = data.officials[data.offices[i].officialIndices[0]].channels[j].type
+          //     var channelId = data.officials[data.offices[i].officialIndices[0]].channels[j].id
+          //     console.log(channelType, channelId);
+  
+          //     if(channelType === 'Facebook') {
+          //       facebookId = 'facebook.com/'+channelId;
+          //     } else if(channelType==='Twitter') {
+          //       twitterId = 'twitter.com/'+channelId;
+          //     } else {
+          //       facebookId = 'Not available';
+          //       twitterId = 'Not available';
+          //     }
+          //   }
+          // }
+
+          if(!data.officials[data.offices[i].officialIndices[0]].channels) {
+            facebookId = 'Not available';
+            twitterId = 'Not available';
+          } else{
+            let j=0;
+            while (j<data.officials[data.offices[i].officialIndices[0]].channels.length) {
+              var channelType = data.officials[data.offices[i].officialIndices[0]].channels[j].type;
+              var channelId = data.officials[data.offices[i].officialIndices[0]].channels[j].id;
+              console.log(channelType, channelId);
+  
+              if(channelType === 'Facebook') {
+                facebookId = 'facebook.com/'+channelId;
+              } else if(channelType==='Twitter') {
+                twitterId = 'twitter.com/'+channelId;
               } else {
                 facebookId = 'Not available';
                 twitterId = 'Not available';
               }
+              j++;
             }
-          }
+  
+          }   
+
+          let htmlInsert = 
+          `<div class='official-container'>
+            <h3 class='office-name>${officeName}</h3>
+            <h4 class='official-name'>${officialName}</h4>
+            <p class='party'>${party}</p>
+            <div id='contact-info'>
+              <address class='address'>${addressLine1}<br />
+              ${addressCity}, ${addressState} ${addressZip}<br />
+              P: ${phone}<br />
+              E: ${email}
+              </address>
+            </div>
+            <div id='information'>
+              <p>Official website: ${officialWebsite}</p>
+              <p>Wikipedia: ${wikiSite}</p>
+            </div>
+            <div id='social-media'>
+              <p id='facebook'>Facebook: ${facebookId}</p>
+              <p id='twitter'>Twitter: ${twitterId}</p>
+            </div>
+          </div>`
+
+
+          if(data.offices[i].levels = 'country') {
+            federalHeaderEl.append(htmlInsert);
+          } else if (data.offices[i].levels = 'administrativeArea1') {
+            stateHeaderEl.append(htmlInsert);
+          } else if (data.offices[i].levels = 'administrativeArea2') {
+            localHeaderEl.append(htmlInsert);
+          };
+        }
       })
     }
   })
@@ -109,29 +174,6 @@ function search() {
   // var stateCode = data.normalizedInput.state;
 
   // getOSLegislators(stateCode);
-
-
-  federalHeaderEl.append(
-    `<h3 class='office-name>${officeName}</h3>
-      <h4 class='official-name'>${officialName}</h4>
-      <p class='party'>${party}</p>
-      <div id='contact-info'>
-        <address class='address'>${addressLine1}<br />
-        ${addressCity}, ${addressState} ${addressZip}<br />
-        P: ${phone}<br />
-        E: ${email}
-        </address>
-      </div>
-      <div id='information'>
-        <p>Official website: ${officialWebsite}</p><br />
-        <p>Wikipedia: ${wikiSite}</p>
-      </div>
-      <div id='social-media'>
-        <p id='facebook'>Facebook: ${facebookId}</p>
-        <p id='twitter'>Twitter: ${twitterId}</p>
-      </div>
-      `
-  )
 }
 
 
