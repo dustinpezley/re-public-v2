@@ -1,3 +1,5 @@
+// $(document).foundation();
+
 // Element variables
 var localHeaderEl = $('#local-info');
 var stateHeaderEl = $('#state-info');
@@ -6,8 +8,8 @@ var searchInputEl = ('#search-input');
 var localBoxEl = $('#local-container');
 var stateBoxEl = $('#state-container');
 var federalBoxEl = $('#federal-container');
-var contributionsEl = $('#contributions-container');
-var candidateSummaryEl = '';
+// var contributionsEl = '';
+// var candidateSummaryEl = '';
 
 // Variables needed in global scope
 var officeName = '';
@@ -35,7 +37,7 @@ var candidateFirstElected = '';
 var candidateNextElection = '';
 var candidateExpenditures = '';
 var candidateTotalReceipts = '';
-var candidateSource = ''
+var candidateSource = '';
 var candidateLastUpdated = '';
 var contributorArray = [];
 var contributorCycle = '';
@@ -81,15 +83,7 @@ function getRepresentatives(address) {
           officeLevel = data.offices[i].levels[0];
           officialName = data.officials[data.offices[i].officialIndices[0]].name;
           party = data.officials[data.offices[i].officialIndices[0]].party;
-
-          // Get ID information from govinfo from congressional members only
-          if(officeName === 'U.S. Senator' || officeName === 'U.S. Representative') {
-            official_full = JSON.parse(JSON.stringify(officialName));
-            console.log(official_full)
-            // Define govinfo variables for use in html write
-
-            getLegislatorIDs(official_full);
-          }
+          official_full = JSON.parse(JSON.stringify(officialName));
 
           // If address exists, define variables
           if(!data.officials[data.offices[i].officialIndices[0]].address) {
@@ -174,27 +168,26 @@ function getRepresentatives(address) {
           };
 
           if(officeName === 'U.S. Senator' || officeName === 'U.S. Representative') {
-            if(officeLevel === 'administrativeArea2') {
-              $(localHeaderEl).append(`
-              <div id='contributors-container'>
-                <ol class='contributors' id='contributor-list'>Top Contributors</ol>
+            $(federalHeaderEl).append(`
+            <div class='accordion-menu' data-accordion-menu>
+              <div class='menu vertical' id='summary-container${[i]}'>
+                <ul class='summary'><a href='#'>Financial Summary</a></ul>
               </div>
-              `);
-            } else if (officeLevel === 'administrativeArea1') {
-              $(stateHeaderEl).append(`
-              <div id='contributors-container'>
-                <ol class='contributors' id='contributor-list'>Top Contributors</ol>
+            </div>
+            <div class='accordion-menu' data-accordion-menu>
+              <div class='menu veritcal' id='contributors-container${[i]}'>
+                <ol class='contributors'><a href='#'>Top Contributors</a></ol>
               </div>
-              `);
-            } else if (officeLevel === 'country') {
-              $(federalHeaderEl).append(`
-              <div id='contributors-container'>
-                <ol class='contributors' id='contributor-list'>Top Contributors</ol>
-              </div>
-              `);
-            };
+            </div>
+            `);
           }
-          contributionsEl = $('#contributors-container');
+          let iterationString =  String([i])
+
+          var candidateSummaryEl = $('#summary-container'+iterationString);
+          var contributionsEl = $('#contributors-container'+iterationString);
+
+          // Get ID information from API for Federal congressional members only
+          getLegislatorIDs(official_full, candidateSummaryEl,contributionsEl);
         }
       })
     }
@@ -212,80 +205,96 @@ function search() {
 
 search(address);
 
-function getCandContrib (openSecretsID) {
+function getCandContrib (openSecretsID, contributionsEl) {
   let apiUrl = 'https://www.opensecrets.org/api/?method=candContrib&cid='+openSecretsID+'&output=json&apikey='+openSecretsKey;
 
   fetch(apiUrl).then(function(response) {
     if(response.ok) {
       response.json().then(function(data){
-        console.log(data);
         crpNotice =  data.response.contributors['@attributes'].notice;
         crpOrigin =  data.response.contributors['@attributes'].origin;
         crpSource =  data.response.contributors['@attributes'].source;
         contributorCycle =  data.response.contributors['@attributes'].cycle;
         contributorArray = data.response.contributors.contributor;
-
-        console.log(contributorArray);
         
         // Define HTML for list items for each contributor
-        for(var i=0;i<contributorArray.length;i++) {
+        for(var j=0;j<contributorArray.length;j++) {
           contributorHTML =
             `
-            <li>${contributorArray[i]['@attributes'].org_name}<br />
-              <p class='total-contributions'>Total Contributions: <span class='total-cont-dollars'>${contributorArray[i]['@attributes'].total}</span></p>
-              <p class='individual-contributions'>Individual Contributions: <span class='indiv-cont-dollars'>${contributorArray[i]['@attributes'].indivs}</span></p>
-              <p class='pac-contributors'>PAC Contributions: <span class='pac-cont-dollars'>${contributorArray[i]['@attributes'].pacs}</span></p>
+            <li>${contributorArray[j]['@attributes'].org_name}<br />
+              <p class='total-contributions'>Total Contributions: <span class='total-cont-dollars'>${contributorArray[j]['@attributes'].total}</span></p>
+              <p class='individual-contributions'>Individual Contributions: <span class='indiv-cont-dollars'>${contributorArray[j]['@attributes'].indivs}</span></p>
+              <p class='pac-contributors'>PAC Contributions: <span class='pac-cont-dollars'>${contributorArray[j]['@attributes'].pacs}</span></p>
             </li>
             `;
 
           // Append defined HTML to container element defined in search results
-
+          $(contributionsEl).append(contributorHTML);
         }
-        // <p class='notice'>${crpNotice}</p>
-        // <p class='origin'>${crpOrigin}</p>
-        // <p class='source'>${crpSource}</p>
+
+        $(contributionsEl).append(`
+        <p class='notice'>${crpNotice}</p>
+        <p class='origin'>${crpOrigin}</p>
+        <p class='source'>${crpSource}</p>
+        `);
       })
     }
   })
 }
 
-function getLegislatorIDs(official_full) {
-  let apiUrl = 'https://theunitedstates.io/congress-legislators/legislators-current.json'
+function getLegislatorIDs(official_full, candidateSummaryEl, contributionsEl) {
+  if(officeName === 'U.S. Senator' || officeName === 'U.S. Representative') {
+    let apiUrl = 'https://theunitedstates.io/congress-legislators/legislators-current.json'
 
-  fetch(apiUrl).then(function(response) {
-    if(response.ok) {
-      response.json().then(function(data) {
-        var indexResult = data.findIndex(data => (data.name.official_full === official_full) ? true : false);
-        openSecretsID = data[indexResult].id.opensecrets;
-        bioGuideId = data[indexResult].id.bioguide;
+    fetch(apiUrl).then(function(response) {
+      if(response.ok) {
+        response.json().then(function(data) {
+          let indexResult = data.findIndex(data => (data.name.official_full === official_full) ? true : false);
+          openSecretsID = data[indexResult].id.opensecrets;
+          bioGuideId = data[indexResult].id.bioguide;
 
-        getCandSummary(openSecretsID);
-        getCandContrib(openSecretsID);
-
-      })
-    }
-  })
+          getCandSummary(openSecretsID, candidateSummaryEl);
+          getCandContrib(openSecretsID, contributionsEl);
+        })
+      }
+    })
+  }
 }
 
-function getCandSummary(openSecretsID) {
+function getCandSummary(openSecretsID, candidateSummaryEl) {
   let apiUrl = 'http://www.opensecrets.org/api/?method=candSummary&cid='+openSecretsID+'&output=json&apikey='+openSecretsKey;
 
   fetch(apiUrl).then(function(response) {
     if(response.ok) {
       response.json().then(function(data) {
         console.log(data);
-      })
-    }
-  })
-}
+        candidateCash = data.response.summary['@attributes'].cash_on_hand;
+        candidateDebt = data.response.summary['@attributes'].debt;
+        candidateFirstElected = data.response.summary['@attributes'].first_elected;
+        candidateNextElection = data.response.summary['@attributes'].next_election;
+        candidateExpenditures = data.response.summary['@attributes'].spent;
+        candidateTotalReceipts = data.response.summary['@attributes'].total;
+        candidateSource = data.response.summary['@attributes'].source;
+        candidateOrigin = data.response.summary['@attributes'].origin;
+        candidateLastUpdated = data.response.summary['@attributes'].last_updated;
+        
+        let summaryHTML = 
+          `<li>First election (year): ${candidateFirstElected}</li>
+          <li>Next election (year): ${candidateNextElection}</li>
+          <br /><br />
+          <li>Total receipts: ${candidateTotalReceipts}</li>
+          <br /><br />
+          <li>Cash on hand: ${candidateCash}</li>
+          <li>Total expenditures: ${candidateExpenditures}</li>
+          <li>Total debt: ${candidateDebt}</li>
+          <p class='last-updated'>${candidateLastUpdated}</p>
+          `
 
-function getGovInfo() {
-  let apiUrl = 'https://api.govinfo.gov/packages/CREC-2018-01-04/summary?api_key='+govInfoKey;
-
-  fetch(apiUrl).then(function(response) {
-    if(response.ok) {
-      response.json().then(function(data) {
-        console.log(data);
+          $(candidateSummaryEl).append(summaryHTML);
+          $(candidateSummaryEl).append(`
+            <p class='origin'>${candidateOrigin}</p>
+            <p class='source'>${candidateSource}</p>
+          `)
       })
     }
   })
