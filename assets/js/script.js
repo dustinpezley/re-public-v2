@@ -66,11 +66,11 @@ $(errorModalEl).dialog({
   appendTo: ".search",
   autoOpen: false,
   resizeable: false,
-  show: {effect: "fadeIn", duration: 0},
-  closeText: hide,
+  show: {effect: "fadeIn", duration: 2},
+  closeText: "hide",
   closeOnEscape: true,
   draggable: false,
-  hide: {effect: "fadeOut", duration: 0},
+  hide: {effect: "fadeOut", duration: 2},
   maxWidth: 500,
   minWidth: 200,
   modal: true
@@ -159,7 +159,7 @@ function getRepresentatives(address) {
 
           // Div definition for insert using template literal
           let htmlInsert = 
-          `<div class='official-container accordion-content' data-tab-content>
+          `<div class='official-container'>
             <h3 class='office-name'>${officeName}</h3>
             <h4 class='official-name'>${officialName}</h4>
             <p class='party'>${party}</p>
@@ -193,13 +193,13 @@ function getRepresentatives(address) {
           if(officeName === 'U.S. Senator' || officeName === 'U.S. Representative') {
             $(federalHeaderEl).append(`
               <div id='summary-container${[i]}'>
-                <div class='summary accordion-content' data-tab-content>
+                <div class='summary'>
                   <h4>Financial Summary</h4>
                 </div>
               </div>
             
               <div id='contributors-container${[i]}'>
-                <div class='contributors accordion-content' data-tab-content>
+                <div class='contributors'>
                   <h4>Top Contributors</h4>
                 </div>
               </div>
@@ -277,9 +277,7 @@ function getLegislatorIDs(official_full, candidateSummaryEl, contributionsEl) {
       } else {
 
       }
-    }).catch(
-
-    )
+    })
   }
 }
 
@@ -319,9 +317,7 @@ function getCandSummary(openSecretsID, candidateSummaryEl) {
           `)
       })
     }
-  }).catch(
-
-  )
+  })
 }
 
 

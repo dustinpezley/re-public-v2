@@ -172,9 +172,14 @@ main {
   margin-bottom: 5px;
 }
 
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
 .ui-widget-content {
   font-size: 0.75rem;
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .ui-corner-all {
