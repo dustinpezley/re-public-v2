@@ -12,6 +12,10 @@ var stateBoxEl = $('#state-container');
 var federalBoxEl = $('#federal-container');
 var govtInfoEl = $('#govt-info');
 var errorModalEl = $('#dialog-modal');
+var accordionEl = $('.accordion');
+
+//Initialize accordion
+$(accordionEl).accordion();
 
 // Variables needed in global scope
 var officeName = '';
@@ -75,6 +79,16 @@ $(errorModalEl).dialog({
   minWidth: 200,
   modal: true
 });
+
+// define accordion
+$(accordionEl).accordion({
+  active: 0,
+  animate: 50,
+  collapsible: true,
+  event: "click",
+  header: "h2",
+  icons: {"header": "ui-icon-caret-1-e", "activeHeader": "ui-icon-caret-1-s"}
+})
 
 function getRepresentatives(address) {
   let apiUrl = "https://www.googleapis.com/civicinfo/v2/representatives?address="+address+"&key="+civicKey;
