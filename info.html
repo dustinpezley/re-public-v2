@@ -4,19 +4,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/optional.css">
+    <link rel="stylesheet" href="./assets/css/info.css">
+    <link rel="icon" type="image/png" href="./assets/images/Favicon.png">
     <title>Re:Public Credits</title>
 </head>
 <body>
     <main>
-        <section id="googleCivics" class="sec-header">
+        <section id="googleCivics" class="api-block">
             <h2>Google Civics Information API</h2>
-            <p>Google Civics API information goes here.</p>
-            <a href="https://some-link.com">Google Civics API</a>
+            <p class="info-text"> 
+                For any U.S. residential address, you can look up who represents that address at each elected level of government.
+                During supported elections, you can also look up polling places, early vote location, candidate data, and other election official information.
+            </p>
+            <a class="link info-text" href="https://developers.google.com/civic-information">API Reference</a>
         </section>
-        <section id="additionaAPI" class="sec-header">
-            <h2>Additional API Information</h2>
-            <p>Additional API information goes here.</p>
-            <a href="https://some-link.com">Additional API</a>
+        <section id="OpenSecrets" class="api-block">
+            <h2>OpenSecrets.org</h2>
+            <p class="info-text">
+                Data provided through the Center for Responsive Politics
+                <br /><br />
+                A 501(c)(3) tax-exempt, charitable organization
+                <address class="info-text">1300 L St NW, Suite 200 Washington, DC 20005</address>
+            </p>
+            <a class="link info-text" href="https://www.opensecrets.org/open-data/api">API Reference</a>
+        </section>
+        <section id="congress" class="api-block">
+            <h2>Congressional JSON</h2>
+            <p class="info-text">
+                JSON export of all current memebrs of Congress with relevant information.
+
+                Additional information can be found <a  class="info-text" href="https://github.com/unitedstates/congress-legislators">here</a>.
+            </p>
+            <a class="link info-text" href="https://theunitedstates.io/congress-legislators/legislators-current.json">JSON Reference</a>
         </section>
     </main>
 </body>
