@@ -58,7 +58,7 @@ nav {
 	height: 30vh;
 }
 
-.accordion-title {
+.accordion h2 {
     color: blue;
     font-weight: bolder;
     font-size: larger;
