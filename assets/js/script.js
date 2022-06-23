@@ -11,6 +11,7 @@ var localBoxEl = $('#local-container');
 var stateBoxEl = $('#state-container');
 var federalBoxEl = $('#federal-container');
 var govtInfoEl = $('#govt-info');
+var errorModalEl = $('#dialog-modal');
 
 // Variables needed in global scope
 var officeName = '';
@@ -52,7 +53,28 @@ const proPublicaKey = '2pNm5c6OoX6Qs8joxqGptlpExvwrg9hxzGxzj3GE';
 const openSecretsKey = '790149a888a39934e82a2ad7234b7043';
 const govInfoKey = 'eEd0GvTqXamQlTNTBaSkUhVDEbfQrHIT6W1qxaZy';
 
-// var address = '63119';
+
+// define the modal
+$(errorModalEl).dialog({
+  buttons: [{
+    text: " Ok ",
+    click: function() {
+      $(this).dialog("close");
+      location.reload();
+    }
+  }],
+  appendTo: ".search",
+  autoOpen: false,
+  resizeable: false,
+  show: {effect: "fadeIn", duration: 0},
+  closeText: hide,
+  closeOnEscape: true,
+  draggable: false,
+  hide: {effect: "fadeOut", duration: 0},
+  maxWidth: 500,
+  minWidth: 200,
+  modal: true
+});
 
 function getRepresentatives(address) {
   let apiUrl = "https://www.googleapis.com/civicinfo/v2/representatives?address="+address+"&key="+civicKey;
@@ -193,6 +215,9 @@ function getRepresentatives(address) {
           getLegislatorIDs(official_full, candidateSummaryEl,contributionsEl);
         }
       })
+    } else {
+      $(errorModalEl).dialog('open');
+      return;
     }
   })
 }
@@ -249,8 +274,12 @@ function getLegislatorIDs(official_full, candidateSummaryEl, contributionsEl) {
           
           var elem = new Foundation.Accordion(govtInfoEl);
         })
+      } else {
+
       }
-    })
+    }).catch(
+
+    )
   }
 }
 
@@ -290,7 +319,9 @@ function getCandSummary(openSecretsID, candidateSummaryEl) {
           `)
       })
     }
-  })
+  }).catch(
+
+  )
 }
 
 
