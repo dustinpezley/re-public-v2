@@ -1,4 +1,5 @@
-// $(document).foundation();
+$(document).foundation();
+
 
 // Element variables
 var localHeaderEl = $('#local-info');
@@ -8,6 +9,9 @@ var searchInputEl = ('#search-input');
 var localBoxEl = $('#local-container');
 var stateBoxEl = $('#state-container');
 var federalBoxEl = $('#federal-container');
+var menuEl = $('.menu');
+
+var elem = new Foundation.OffCanvas(menuEl);
 // var contributionsEl = '';
 // var candidateSummaryEl = '';
 

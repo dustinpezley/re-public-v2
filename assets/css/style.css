@@ -1,0 +1,111 @@
+:root {
+  --color-light: #fffaff;
+  --color-grey: #303036;
+  --color-black: #050401;
+  --color-blue: #30bced;
+  --color-red: #fc5130;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  background-color: var(--color-grey);
+}
+
+.top-bar {
+  background-color: var(--color-grey);
+}
+
+#reg2vote {
+  align-self: center;
+  margin: 0 2rem 0 1rem;
+}
+
+nav a {
+  color: var(--color-light);
+  padding-right: 1.5rem;
+}
+
+.img-wrap {
+  position: relative;
+}
+
+.img-description {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-grey);
+  color: var(--color-dark);
+  visibility: hidden;
+  opacity: 0;
+}
+
+.federal-links {
+  flex-direction:column;
+  justify-content: center;
+}
+
+#white-house {
+  width: 95px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+#capital {
+  width: 70px
+}
+
+.logo {
+  height: 3rem;
+  width: auto;
+  margin-right: 2rem;
+}
+
+nav div {
+  display: flex;
+  align-items: flex-end;
+}
+
+.icon {
+  padding-right: 1.5rem;
+  filter: brightness(0) saturate(1) invert(1)
+}
+
+main {
+  background-color: var(--color-light);
+}
+
+#search-container {
+  display: flex;
+  justify-content: center;
+}
+
+#govt {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#govt div {
+  border: 1px solid var(--color-black);
+  background-color: var(--color-grey);
+  color: var(--color-light);
+  text-align: center;
+  width: 300px;
+  height: 200px
+}
+
+
+
+.container-image {
+  max-width: 100px;
+}
+
