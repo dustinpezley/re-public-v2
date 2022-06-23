@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html calss="no-js" lang="en">
+<html class="no-js" lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,31 +16,36 @@
     <div class="menu off-canvas position-right align-center-middle" id="offCanvas" data-off-canvas data-transition="overlap">
       <div class="links">
         <div class="img-wrap align-center">
-          <a href="https://www.usa.gov/register-to-vote" target="_blank" referrerpolicy="noreferrer" id="reg2vote"><i class="fa-solid fa-person-booth icon"></i></a>
+          <a href="https://www.usa.gov/register-to-vote" target="_blank" referrerpolicy="noreferrer" id="reg2vote" aria-haspopup="true"><i class="fa-solid fa-person-booth icon"></i></a>
           <p class="img-description menu-text">Register to Vote</p>
         </div>
         <div class="img-wrap align-center">
-          <a href="https://www.visitthecapitol.gov" id="capitol"><img class="icon" id="capital" src="./assets/images/Capitol.svg" alt="Capitol_Bldg"></a>
+          <a href="https://www.visitthecapitol.gov" target="_blank" referrerpolicy="noreferrer" id="capitol" aria-haspopup="true"><img class="icon" id="capital" src="./assets/images/Capitol.svg" alt="Capitol_Bldg"></a>
           <p class="img-description menu-text">The US Capitol</p>
         </div>
         <div class="img-wrap align-center">
-          <a href="https://www.whitehouse.gov" id="white-house"><img class="icon" id="white-house" src="./assets/images/White House.svg" alt="White_House"></a>
+          <a href="https://www.whitehouse.gov" target="_blank" referrerpolicy="noreferrer" id="white-house" aria-haspopup="true"><img class="icon" id="white-house" src="./assets/images/White House.svg" alt="White_House"></a>
           <p class="img-description menu-text">The White House</p>
         </div>
         <div class="img-wrap align-center">
-          <a href="./info.html" id="info"><i class="fa-solid fa-circle-info icon"></i></a>
+          <a href="./info.html" id="info" aria-haspopup="true"><i class="fa-solid fa-circle-info icon"></i></a>
           <p class="img-description menu-text">Info/Credits</p>
         </div>
       </div>
       <button class="close-button" aria-label="Close menu" type="button" data-close><span aria-hidden="true">X</span></button>
     </div>
     <div class="off-canvas-content" data-off-canvas-content>
-      <div class="logo-container animate__animated animate__fadeInLeft">
-        <a href="#"><img class="logo" src="assets/images/Republic_white.png"></a>
+      <div class="logo-container">
+        <a href="#"><img class="logo animate__animated animate__fadeInLeft" src="assets/images/Republic_white_initial.png"><img class="logo animate__animated animate__fadeIn" src="assets/images/Republic_white_secondary.png"></a>
       </div>
       <div class="search">
-        <input type="address" placeholder="Please enter your full address" class="searchBox" id="search-input">
-        <button type="submit" class="btn" id="search-button"><a><i class="fa-solid fa-magnifying-glass"></a></i></button>
+        <form autocomplete="off">
+          <div id="search-bar">
+            <input type="text" name="q" onKeyUp="showResults(this.value)" placeholder="Please enter your full address" class="searchBox" id="search-input" />
+            <button type="submit" class="btn" id="search-button"><a><i class="fa-solid fa-magnifying-glass"></a></i></button>
+          </div>
+          <div id="result"></div>
+        </form>
       </div>
     </div>
     <button type="button" class="menu-btn button" data-toggle="offCanvas">Menu<i class="fa-solid fa-caret-down"></i></button>
@@ -49,5 +54,6 @@
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/js/foundation.js"></script>
   <script src="./assets/js/script.js"></script>
+  <script src="./assets/js/index.js"></script>
 </body>
 </html>

@@ -10,11 +10,7 @@ var searchButtonEl = $('#search-button')
 var localBoxEl = $('#local-container');
 var stateBoxEl = $('#state-container');
 var federalBoxEl = $('#federal-container');
-var menuEl = $('.menu');
-
-var elem = new Foundation.OffCanvas(menuEl);
-// var contributionsEl = '';
-// var candidateSummaryEl = '';
+var govtInfoEl = $('#govt-info');
 
 // Variables needed in global scope
 var officeName = '';
@@ -59,7 +55,7 @@ const govInfoKey = 'eEd0GvTqXamQlTNTBaSkUhVDEbfQrHIT6W1qxaZy';
 // var address = '63119';
 
 function getRepresentatives(address) {
-  let apiUrl = "https://www.googleapis.com/civicinfo/v2/representatives?address=25%20W%20Rose%20Ave%20Webster%20Groves%2C%20MO&key="+civicKey;
+  let apiUrl = "https://www.googleapis.com/civicinfo/v2/representatives?address="+address+"&key="+civicKey;
 
   // redirects to proxy server for CORS workaround
   jQuery.ajaxPrefilter(function(apiUrl) {
@@ -174,16 +170,18 @@ function getRepresentatives(address) {
 
           if(officeName === 'U.S. Senator' || officeName === 'U.S. Representative') {
             $(federalHeaderEl).append(`
-            <div class='accordion-menu' data-accordion-menu>
-              <div class='menu vertical' id='summary-container${[i]}'>
-                <ul class='summary'><a href='#'>Financial Summary</a></ul>
+              <div id='summary-container${[i]}'>
+                <div class='summary accordion-content' data-tab-content>
+                  <h4>Financial Summary</h4>
+                </div>
               </div>
-            </div>
-            <div class='accordion-menu' data-accordion-menu>
-              <div class='menu veritcal' id='contributors-container${[i]}'>
-                <ol class='contributors'><a href='#'>Top Contributors</a></ol>
+            
+              <div id='contributors-container${[i]}'>
+                <div class='contributors accordion-content' data-tab-content>
+                  <h4>Top Contributors</h4>
+                </div>
               </div>
-            </div>
+            
             `);
           }
           let iterationString =  String([i])
@@ -197,14 +195,6 @@ function getRepresentatives(address) {
       })
     }
   })
-}
-
-function search(searchInputEl) {
-  var address = encodeURIComponent($(searchInputEl).val());
-
-  getRepresentatives(address);
-
-  location.href='./results.html';
 }
 
 function getCandContrib (openSecretsID, contributionsEl) {
@@ -223,11 +213,10 @@ function getCandContrib (openSecretsID, contributionsEl) {
         for(var j=0;j<contributorArray.length;j++) {
           contributorHTML =
             `
-            <li>${contributorArray[j]['@attributes'].org_name}<br />
+            <h5>${contributorArray[j]['@attributes'].org_name}</h5><br />
               <p class='total-contributions'>Total Contributions: <span class='total-cont-dollars'>${contributorArray[j]['@attributes'].total}</span></p>
               <p class='individual-contributions'>Individual Contributions: <span class='indiv-cont-dollars'>${contributorArray[j]['@attributes'].indivs}</span></p>
               <p class='pac-contributors'>PAC Contributions: <span class='pac-cont-dollars'>${contributorArray[j]['@attributes'].pacs}</span></p>
-            </li>
             `;
 
           // Append defined HTML to container element defined in search results
@@ -257,6 +246,8 @@ function getLegislatorIDs(official_full, candidateSummaryEl, contributionsEl) {
 
           getCandSummary(openSecretsID, candidateSummaryEl);
           getCandContrib(openSecretsID, contributionsEl);
+          
+          var elem = new Foundation.Accordion(govtInfoEl);
         })
       }
     })
@@ -281,14 +272,14 @@ function getCandSummary(openSecretsID, candidateSummaryEl) {
         candidateLastUpdated = data.response.summary['@attributes'].last_updated;
         
         let summaryHTML = 
-          `<li>First election (year): ${candidateFirstElected}</li>
-          <li>Next election (year): ${candidateNextElection}</li>
+          `<p >First election (year): ${candidateFirstElected}</p>
+          <p >Next election (year): ${candidateNextElection}</p>
           <br /><br />
-          <li>Total receipts: ${candidateTotalReceipts}</li>
+          <p >Total receipts: ${candidateTotalReceipts}</p>
           <br /><br />
-          <li>Cash on hand: ${candidateCash}</li>
-          <li>Total expenditures: ${candidateExpenditures}</li>
-          <li>Total debt: ${candidateDebt}</li>
+          <p >Cash on hand: ${candidateCash}</p>
+          <p >Total expenditures: ${candidateExpenditures}</p>
+          <p >Total debt: ${candidateDebt}</p>
           <p class='last-updated'>${candidateLastUpdated}</p>
           `
 
@@ -302,18 +293,5 @@ function getCandSummary(openSecretsID, candidateSummaryEl) {
   })
 }
 
-var input = document.getElementById('search-input');
 
-input.addEventListener('keypress', function(event) {
-  console.log(event.key);
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    document.getElementById('search-button').click();
-  }
-})
-
-$(searchButtonEl).on("click",searchInputEl,function(){
-  search(searchInputEl);
-  return false;
-})
 
