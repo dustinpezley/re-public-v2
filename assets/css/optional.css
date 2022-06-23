@@ -134,20 +134,57 @@ main {
 /* AUTOCOMPLETE START */
 #result {
   padding: 3px;
+  position: relative;
 }
 #result ul {
   list-style-type: none;
   padding-left: 1%;
   margin: 0;
   color: var(--color-light);
+  position: absolute;
+  overflow: visible;
 }
 #result ul li {
-  padding: 5px 0;
+  padding: 0.5rem 0.5rem;
+  margin-bottom: 1rem;
 }
+
 #result ul li:hover {
   background: var(--color-grey);
+  border-radius: 15px;
 }
 /* AUTOCOMPLETE END */
+
+/* MODAL START */
+.ui-widget {
+  background-color: var(--color-grey);
+  color: var(--color-light);
+  padding: 15px;
+}
+
+.ui-widget:focus {
+  box-shadow: 0 0 0 5000px rgba(0,0,0,0.75);
+}
+
+.ui-widget-header {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
+.ui-widget-content {
+  font-size: 0.75rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.ui-corner-all {
+  border-radius: 15px;
+}
 
 @media only screen and (max-width: 762px) {
   .logo {

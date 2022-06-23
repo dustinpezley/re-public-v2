@@ -61,9 +61,15 @@ function showResults(val) {
   let list = '';
   let terms = autocompleteMatch(val);
   for (i=0; i<terms.length; i++) {
-    list += '<li>' + terms[i] + '</li>';
+    list += '<li class="result-item">' + terms[i] + '</li>';
   }
-  res.innerHTML = '<ul>' + list + '</ul>';
+  res.innerHTML = '<ul class="result-list">' + list + '</ul>';
 }
+
+$('.result-list').on('click',function() {
+  var content = $(this).text();
+
+  $(searchInputEl).val(content);
+})
 
 loadStorage();
