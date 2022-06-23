@@ -246,8 +246,7 @@ function getLegislatorIDs(official_full, candidateSummaryEl, contributionsEl) {
 
           getCandSummary(openSecretsID, candidateSummaryEl);
           getCandContrib(openSecretsID, contributionsEl);
-          
-          var elem = new Foundation.Accordion(govtInfoEl);
+          var elem = new Foundation.Accordion(govtInfoEl)
         })
       }
     })

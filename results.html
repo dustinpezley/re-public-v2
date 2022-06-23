@@ -5,32 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css">
+    <link rel="stylesheet" href="./assets/css/results.css">
     <link rel="icon" type="image/png" href="./assets/images/Favicon.png">
     <title>RE:Public - Search Results</title>
 </head>
 <body>
-    <nav>
-        <a href="https://www.usa.gov/register-to-vote" target="_blank" referrerpolicy="noreferrer" id="reg2vote">Register to Vote</a>
-        <a href="./optional.html"><img src="assets/images/Republic_v2.png"></a>
-        <a href="https://www.whitehouse.gov" target="_blank" referrerpolicy="noreferrer" id="white-house"><img src="./assets/images/White House.svg" alt="White_House" style="width:200px;height:150px"></a>
-        <a href="https://www.visitthecapitol.gov" target="_blank" referrerpolicy="noreferrer" id="capitol"><img src="./assets/images/Capitol.svg" alt="Capitol_Bldg" style="width:200px;height:200px"></a>
+    <nav class="flex-container flex-dir-row align-bottom" style="height: 250px">
+        <a class="cell primary flex-child-auto" href="https://www.usa.gov/register-to-vote" id="reg2vote">Register to Vote</a>
+        <h1 class="cell primary flex-child-grow"><img src="assets/images/Republic_v2.png"></h1>
+        <a class="cell primary flex-child-shrink align-right" href="https://www.whitehouse.gov" id="white-house">
+            <img src="./assets/images/White House.svg" alt="White_House">
+            <p class="text-center">White House</p>
+        </a>
+        <a class="cell primary flex-child-shrink align-right" href="https://www.visitthecapitol.gov" id="capitol">
+            <img src="./assets/images/Capitol.svg" alt="Capitol_Bldg">
+            <p class="text-center">The Capitol</p>
+        </a>
     </nav>
     <main>
-        <!-- <div id="functions">
-            <div id="search-container">
-                <input type="address" class="searchBox" id="search-input">
-                <button class="button">Search</button>
-            </div>
-        </div> -->
-        <div id="govt-info" class="accordion" data-accordion data-allow-all-closed="true">
-            <div id="local-info" class="accordion-item is-active" data-accordion-item>
+        <div id="govt-info" class="accordion" data-accordion>
+            <div id="local-info" class="accordion-item" data-accordion-item>
                 <a href="#" class="accordion-title">Local</a>
             </div>
-            <div class="accordion-item" data-accordion-item>
-            <a id="state-info" href="#" class="accordion-title">State</a>
+            <div id="state-info" class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">State</a>
             </div>
-            <div class="accordion-item" data-accordion-item>
-            <a id="federal-info" href="#" class="accordion-title">Federal</a>
+            <div id="federal-info" class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">Federal</a>
             </div>
        </div>
     </main>
