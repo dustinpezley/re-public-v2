@@ -10,11 +10,7 @@ var searchButtonEl = $('#search-button')
 var localBoxEl = $('#local-container');
 var stateBoxEl = $('#state-container');
 var federalBoxEl = $('#federal-container');
-var menuEl = $('.menu');
-
-var elem = new Foundation.OffCanvas(menuEl);
-// var contributionsEl = '';
-// var candidateSummaryEl = '';
+var govtInfoEl = $('#govt-info');
 
 // Variables needed in global scope
 var officeName = '';
@@ -59,7 +55,7 @@ const govInfoKey = 'eEd0GvTqXamQlTNTBaSkUhVDEbfQrHIT6W1qxaZy';
 // var address = '63119';
 
 function getRepresentatives(address) {
-  let apiUrl = "https://www.googleapis.com/civicinfo/v2/representatives?address=25%20W%20Rose%20Ave%20Webster%20Groves%2C%20MO&key="+civicKey;
+  let apiUrl = "https://www.googleapis.com/civicinfo/v2/representatives?address="+address+"&key="+civicKey;
 
   // redirects to proxy server for CORS workaround
   jQuery.ajaxPrefilter(function(apiUrl) {
@@ -174,14 +170,14 @@ function getRepresentatives(address) {
 
           if(officeName === 'U.S. Senator' || officeName === 'U.S. Representative') {
             $(federalHeaderEl).append(`
-            <div class='accordion-menu' data-accordion-menu>
-              <div class='menu vertical' id='summary-container${[i]}'>
+            <div class='accordion-content accordion-menu vertical menu summary-container' data-tab-content data-accordion-menu data-submenu-toggle='true'>
+              <div id='summary-container${[i]}'>
                 <ul class='summary'><a href='#'>Financial Summary</a></ul>
               </div>
             </div>
-            <div class='accordion-menu' data-accordion-menu>
-              <div class='menu veritcal' id='contributors-container${[i]}'>
-                <ol class='contributors'><a href='#'>Top Contributors</a></ol>
+            <div class='accordion-content accordion-menu vertical menu contirbutors-container' data-tab-content data-accordion-menu data-submenu-toggle='true'>
+              <div id='contributors-container${[i]}'>
+                <ul class='contributors'><a href='#'>Top Contributors</a></ul>
               </div>
             </div>
             `);
@@ -197,14 +193,6 @@ function getRepresentatives(address) {
       })
     }
   })
-}
-
-function search(searchInputEl) {
-  var address = encodeURIComponent($(searchInputEl).val());
-
-  getRepresentatives(address);
-
-  location.href='./results.html';
 }
 
 function getCandContrib (openSecretsID, contributionsEl) {
@@ -224,9 +212,9 @@ function getCandContrib (openSecretsID, contributionsEl) {
           contributorHTML =
             `
             <li>${contributorArray[j]['@attributes'].org_name}<br />
-              <p class='total-contributions'>Total Contributions: <span class='total-cont-dollars'>${contributorArray[j]['@attributes'].total}</span></p>
-              <p class='individual-contributions'>Individual Contributions: <span class='indiv-cont-dollars'>${contributorArray[j]['@attributes'].indivs}</span></p>
-              <p class='pac-contributors'>PAC Contributions: <span class='pac-cont-dollars'>${contributorArray[j]['@attributes'].pacs}</span></p>
+              <p class='total-contributions menu-text'>Total Contributions: <span class='total-cont-dollars'>${contributorArray[j]['@attributes'].total}</span></p>
+              <p class='individual-contributions menu-text'>Individual Contributions: <span class='indiv-cont-dollars'>${contributorArray[j]['@attributes'].indivs}</span></p>
+              <p class='pac-contributors menu-text'>PAC Contributions: <span class='pac-cont-dollars'>${contributorArray[j]['@attributes'].pacs}</span></p>
             </li>
             `;
 
@@ -235,9 +223,9 @@ function getCandContrib (openSecretsID, contributionsEl) {
         }
 
         $(contributionsEl).append(`
-        <p class='notice'>${crpNotice}</p>
-        <p class='origin'>${crpOrigin}</p>
-        <p class='source'>${crpSource}</p>
+        <li class='notice menu-text'>${crpNotice}</li>
+        <li class='origin menu-text'>${crpOrigin}</li>
+        <li class='source menu-text'>${crpSource}</li>
         `);
       })
     }
@@ -257,6 +245,12 @@ function getLegislatorIDs(official_full, candidateSummaryEl, contributionsEl) {
 
           getCandSummary(openSecretsID, candidateSummaryEl);
           getCandContrib(openSecretsID, contributionsEl);
+          var elem = new Foundation.Accordion(govtInfoEl);
+
+          var candSummaryEl = $('.summary-container');
+          var contInfoEl = $('.contributors-container');
+          var elem = new Foundation.AccordionMenu(candSummaryEl);
+          var elem = new Foundation.AccordionMenu(contInfoEl);
         })
       }
     })
@@ -281,39 +275,26 @@ function getCandSummary(openSecretsID, candidateSummaryEl) {
         candidateLastUpdated = data.response.summary['@attributes'].last_updated;
         
         let summaryHTML = 
-          `<li>First election (year): ${candidateFirstElected}</li>
-          <li>Next election (year): ${candidateNextElection}</li>
+          `<li class='menu-text'>First election (year): ${candidateFirstElected}</li>
+          <li class='menu-text'>Next election (year): ${candidateNextElection}</li>
           <br /><br />
-          <li>Total receipts: ${candidateTotalReceipts}</li>
+          <li class='menu-text'>Total receipts: ${candidateTotalReceipts}</li>
           <br /><br />
-          <li>Cash on hand: ${candidateCash}</li>
-          <li>Total expenditures: ${candidateExpenditures}</li>
-          <li>Total debt: ${candidateDebt}</li>
-          <p class='last-updated'>${candidateLastUpdated}</p>
+          <li class='menu-text'>Cash on hand: ${candidateCash}</li>
+          <li class='menu-text'>Total expenditures: ${candidateExpenditures}</li>
+          <li class='menu-text'>Total debt: ${candidateDebt}</li>
+          <p class='last-updated menu-text'>${candidateLastUpdated}</p>
           `
 
           $(candidateSummaryEl).append(summaryHTML);
           $(candidateSummaryEl).append(`
-            <p class='origin'>${candidateOrigin}</p>
-            <p class='source'>${candidateSource}</p>
+            <p class='origin menu-text'>${candidateOrigin}</p>
+            <p class='source menu-text'>${candidateSource}</p>
           `)
       })
     }
   })
 }
 
-var input = document.getElementById('search-input');
 
-input.addEventListener('keypress', function(event) {
-  console.log(event.key);
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    document.getElementById('search-button').click();
-  }
-})
-
-$(searchButtonEl).on("click",searchInputEl,function(){
-  search(searchInputEl);
-  return false;
-})
 
