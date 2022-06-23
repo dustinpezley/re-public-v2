@@ -170,16 +170,18 @@ function getRepresentatives(address) {
 
           if(officeName === 'U.S. Senator' || officeName === 'U.S. Representative') {
             $(federalHeaderEl).append(`
-            <div class='accordion-content accordion-menu vertical menu summary-container' data-tab-content data-accordion-menu data-submenu-toggle='true'>
               <div id='summary-container${[i]}'>
-                <ul class='summary'><a href='#'>Financial Summary</a></ul>
+                <div class='summary accordion-content' data-tab-content>
+                  <h4>Financial Summary</h4>
+                </div>
               </div>
-            </div>
-            <div class='accordion-content accordion-menu vertical menu contirbutors-container' data-tab-content data-accordion-menu data-submenu-toggle='true'>
+            
               <div id='contributors-container${[i]}'>
-                <ul class='contributors'><a href='#'>Top Contributors</a></ul>
+                <div class='contributors accordion-content' data-tab-content>
+                  <h4>Top Contributors</h4>
+                </div>
               </div>
-            </div>
+            
             `);
           }
           let iterationString =  String([i])
@@ -211,11 +213,10 @@ function getCandContrib (openSecretsID, contributionsEl) {
         for(var j=0;j<contributorArray.length;j++) {
           contributorHTML =
             `
-            <li>${contributorArray[j]['@attributes'].org_name}<br />
-              <p class='total-contributions menu-text'>Total Contributions: <span class='total-cont-dollars'>${contributorArray[j]['@attributes'].total}</span></p>
-              <p class='individual-contributions menu-text'>Individual Contributions: <span class='indiv-cont-dollars'>${contributorArray[j]['@attributes'].indivs}</span></p>
-              <p class='pac-contributors menu-text'>PAC Contributions: <span class='pac-cont-dollars'>${contributorArray[j]['@attributes'].pacs}</span></p>
-            </li>
+            <h5>${contributorArray[j]['@attributes'].org_name}</h5><br />
+              <p class='total-contributions'>Total Contributions: <span class='total-cont-dollars'>${contributorArray[j]['@attributes'].total}</span></p>
+              <p class='individual-contributions'>Individual Contributions: <span class='indiv-cont-dollars'>${contributorArray[j]['@attributes'].indivs}</span></p>
+              <p class='pac-contributors'>PAC Contributions: <span class='pac-cont-dollars'>${contributorArray[j]['@attributes'].pacs}</span></p>
             `;
 
           // Append defined HTML to container element defined in search results
@@ -223,9 +224,9 @@ function getCandContrib (openSecretsID, contributionsEl) {
         }
 
         $(contributionsEl).append(`
-        <li class='notice menu-text'>${crpNotice}</li>
-        <li class='origin menu-text'>${crpOrigin}</li>
-        <li class='source menu-text'>${crpSource}</li>
+        <p class='notice'>${crpNotice}</p>
+        <p class='origin'>${crpOrigin}</p>
+        <p class='source'>${crpSource}</p>
         `);
       })
     }
@@ -245,12 +246,8 @@ function getLegislatorIDs(official_full, candidateSummaryEl, contributionsEl) {
 
           getCandSummary(openSecretsID, candidateSummaryEl);
           getCandContrib(openSecretsID, contributionsEl);
+          
           var elem = new Foundation.Accordion(govtInfoEl);
-
-          var candSummaryEl = $('.summary-container');
-          var contInfoEl = $('.contributors-container');
-          var elem = new Foundation.AccordionMenu(candSummaryEl);
-          var elem = new Foundation.AccordionMenu(contInfoEl);
         })
       }
     })
@@ -275,21 +272,21 @@ function getCandSummary(openSecretsID, candidateSummaryEl) {
         candidateLastUpdated = data.response.summary['@attributes'].last_updated;
         
         let summaryHTML = 
-          `<li class='menu-text'>First election (year): ${candidateFirstElected}</li>
-          <li class='menu-text'>Next election (year): ${candidateNextElection}</li>
+          `<p >First election (year): ${candidateFirstElected}</p>
+          <p >Next election (year): ${candidateNextElection}</p>
           <br /><br />
-          <li class='menu-text'>Total receipts: ${candidateTotalReceipts}</li>
+          <p >Total receipts: ${candidateTotalReceipts}</p>
           <br /><br />
-          <li class='menu-text'>Cash on hand: ${candidateCash}</li>
-          <li class='menu-text'>Total expenditures: ${candidateExpenditures}</li>
-          <li class='menu-text'>Total debt: ${candidateDebt}</li>
-          <p class='last-updated menu-text'>${candidateLastUpdated}</p>
+          <p >Cash on hand: ${candidateCash}</p>
+          <p >Total expenditures: ${candidateExpenditures}</p>
+          <p >Total debt: ${candidateDebt}</p>
+          <p class='last-updated'>${candidateLastUpdated}</p>
           `
 
           $(candidateSummaryEl).append(summaryHTML);
           $(candidateSummaryEl).append(`
-            <p class='origin menu-text'>${candidateOrigin}</p>
-            <p class='source menu-text'>${candidateSource}</p>
+            <p class='origin'>${candidateOrigin}</p>
+            <p class='source'>${candidateSource}</p>
           `)
       })
     }
