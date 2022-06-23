@@ -7,7 +7,14 @@
 #white-house img {
     width: 200px;
     height: 150px;
+    padding: 10px;
     padding-top: 20px;
+}
+
+#white-house p {
+    color: blue;
+    font-weight: bolder;
+    font-size: larger;
 }
 
 #capitol {
@@ -19,6 +26,19 @@
 #capitol img {
     width: 200px;
     height: 200px;
+    padding: 10px;
+}
+
+#capitol p {
+    color: blue;
+    font-weight: bolder;
+    font-size: larger;
+}
+
+#reg2vote {
+    color: blue;
+    font-weight: bolder;
+    font-size: larger;
 }
 
 h1 {
@@ -32,4 +52,27 @@ h1 img {
 
 nav {
     border-bottom: solid 5px red;
+    background: linear-gradient(-45deg, #8b0303, #f77a95, #23a6d5, #0e0541);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+}
+
+.accordion-title {
+    color: blue;
+    font-weight: bolder;
+    font-size: larger;
+    background-color: bisque;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
