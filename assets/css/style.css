@@ -1,0 +1,35 @@
+#white-house {
+    display: grid;
+    place-items: center;
+    max-width: 12vw;
+}
+
+#white-house img {
+    width: 200px;
+    height: 150px;
+    padding-top: 20px;
+}
+
+#capitol {
+    display: grid;
+    place-items: center;
+    max-width: 12vw;
+}
+
+#capitol img {
+    width: 200px;
+    height: 200px;
+}
+
+h1 {
+    max-width: 50vw;
+    margin: 0;
+}
+
+h1 img {
+    max-width: 50vw;
+}
+
+nav {
+    border-bottom: solid 5px red;
+}
