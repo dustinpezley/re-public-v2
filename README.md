@@ -9,7 +9,7 @@ As a member of the electorate, I need to be able to see my elected�
 ## Screenshot
 ![Re-Public](assets/images/screenshot1.JPG?raw=true "RE:Public Landing Page")
 ![Re-Public](assets/images/screenshot2.JPG?raw=true "RE:Public Search Results")
-![Re-Public](assets/images/screenshot2.JPG?raw=true "RE:Public Credits/Info")
+![Re-Public](assets/images/screenshot3.JPG?raw=true "RE:Public Credits/Info")
 
 ## Link
 
