@@ -1,0 +1,25 @@
+main {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.api-block {
+  color: var(--color-light);
+  text-align: center;
+  width: 50%;
+  margin-bottom: 5vh;
+}
+
+.api-block h2 {
+  font-size: 1.2rem;
+}
+
+.info-text {
+  font-size: 0.8rem;
+}
+
+.api-block a {
+  color: var(--color-grey);
+}
+

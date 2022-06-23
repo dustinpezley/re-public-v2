@@ -4,40 +4,53 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="icon" type="image/png" href="./assets/images/Favicon.png">
   <title>RE:Public</title>
 </head>
 <body>
   <main>
     <nav>
-      <a href="https://" id="reg2vote">Register to Vote</a>
-      <h1><img src="assets/images/Republic_v2.png"></h1>
-      <a href="https://www.whitehouse.gov" id="white-house"><img src="./assets/images/White House.svg" alt="White_House" style="width:200px;height:150px"></a>
-      <a href="https://www.visitthecapitol.gov" id="capitol"><img src="./assets/images/Capitol.svg" alt="Capitol_Bldg" style="width:200px;height:200px"></a>
+      <div>
+        <a href="hhtps://www.usa.gov/register-to-vote" target="_blank" referrerpolicy="noreferrer" id="reg2vote">Register to Vote</a>
+        <div class="federal-links">
+          <div class="img-wrap">
+            <a href="https://www.visitthecapitol.gov" id="capitol"><img class="icon" id="capital" src="./assets/images/Capitol.svg" alt="Capitol_Bldg"></a>
+            <p class="img-description menu-text">The US Capitol</p>
+          </div>
+          <div class="img-wrap">
+            <a href="https://www.whitehouse.gov" id="white-house"><img class="icon" id="white-house" src="./assets/images/White House.svg" alt="White_House"></a>
+            <p class="img-description menu-text">The White House</p>
+          </div>
+        </div>
+      </div>
+      <h1><img class="logo" src="assets/images/Republic_white.png"></h1>
     </nav>
     <section class="jumbotron">
       <div id="search-container">
-        <input type="address" class="searchBox" id="search-input">
-        <button clas="btn">Search</button>
+        <input type="address" placeholder="Please enter your full address" class="searchBox" id="search-input">
+        <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
       </div>
     </section>
     <section id="govt">
-      <div id="local-container">
-        <div id="local-image"><img src="https://"></div>
+      <div class="target-search-container" id="local-container">
+        <div id="local-image"><img class="container-image" src="./assets/images/local_government.jpg" alt="city hall building representing local government"></div>
         <div id="local">
           <h4>Local</h4>
           <p id="local-output">Text goes here for local government</textarea>
         </div>
       </div>
-      <div id="state-container">
-        <div id="state-image"><img src="https://"></div>
+      <div class="target-search-container" id="state-container">
+        <div id="state-image"><img class="container-image" src="./assets/images/state_government.png" ></div>
         <div id="state">
           <h4>Local</h4>
           <p id="state-output">Text goes here for state government</textarea>
         </div>
       </div> 
-      <div id="federal-container">
-        <div id="federal-image"><img src="https://"></div>
+      <div class="target-search-container" id="federal-container">
+        <div id="federal-image"><img class="container-image" src="./assets/images/federal_government.png"></div>
         <div id="federal">
           <h4>Local</h4>
           <p id="federal-output">Text goes here for federal government</textarea>
@@ -47,6 +60,10 @@
   </main>
 
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/js/foundation.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/js/plugins/foundation.core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/js/plugins/foundation.accordion.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/js/plugins/foundation.util.keyboard.min.js"></script>
   <script src="./assets/js/script.js"></script>
 </body>
 </html>
