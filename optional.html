@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="./assets/css/optional.css">
+  <link rel="icon" type="image/png" href="./assets/images/Favicon.png">
+  <title>RE:Public</title>
+</head>
+<body>
+  <main>
+    <div class="menu off-canvas position-right align-center-middle" id="offCanvas" data-off-canvas data-transition="overlap">
+      <div class="links">
+        <div class="img-wrap align-center">
+          <a href="https://www.usa.gov/register-to-vote" target="_blank" referrerpolicy="noreferrer" id="reg2vote" aria-haspopup="true"><i class="fa-solid fa-person-booth icon"></i></a>
+          <p class="img-description menu-text">Register to Vote</p>
+        </div>
+        <div class="img-wrap align-center">
+          <a href="https://www.visitthecapitol.gov" target="_blank" referrerpolicy="noreferrer" id="capitol" aria-haspopup="true"><img class="icon" id="capital" src="./assets/images/Capitol.svg" alt="Capitol_Bldg"></a>
+          <p class="img-description menu-text">The US Capitol</p>
+        </div>
+        <div class="img-wrap align-center">
+          <a href="https://www.whitehouse.gov" target="_blank" referrerpolicy="noreferrer" id="white-house" aria-haspopup="true"><img class="icon" id="white-house" src="./assets/images/White House.svg" alt="White_House"></a>
+          <p class="img-description menu-text">The White House</p>
+        </div>
+        <div class="img-wrap align-center">
+          <a href="./info.html" id="info" aria-haspopup="true"><i class="fa-solid fa-circle-info icon"></i></a>
+          <p class="img-description menu-text">Info/Credits</p>
+        </div>
+      </div>
+      <button class="close-button" aria-label="Close menu" type="button" data-close><span aria-hidden="true">X</span></button>
+    </div>
+    <div class="off-canvas-content" data-off-canvas-content>
+      <div class="logo-container">
+        <a href="#"><img class="logo animate__animated animate__fadeInLeft" src="assets/images/Republic_white_initial.png"><img class="logo animate__animated animate__fadeIn" src="assets/images/Republic_white_secondary.png"></a>
+      </div>
+      <div class="search">
+        <form autocomplete="off">
+          <div id="search-bar">
+            <input type="text" name="q" onKeyUp="showResults(this.value)" placeholder="Please enter your full address" class="searchBox" id="search-input" />
+            <button type="submit" class="btn" id="search-button"><a><i class="fa-solid fa-magnifying-glass"></a></i></button>
+          </div>
+          <div id="result"></div>
+        </form>
+        <div id="dialog-modal" title="Request vetoed!">There was a problem with your request. Please ensure that you are using a correct, full address and try again.</div>
+      </div>
+    </div>
+    <button type="button" class="menu-btn button" data-toggle="offCanvas">Menu<i class="fa-solid fa-caret-down"></i></button>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" integrity="sha256-eTyxS0rkjpLEo16uXTS0uVCS4815lc40K2iVpWDvdSY=" crossorigin="anonymous"></script>  <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/js/foundation.js"></script>
+  <script src="./assets/js/script.js"></script>
+  <script src="./assets/js/index.js"></script>
+</body>
+</html>
