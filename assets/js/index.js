@@ -3,12 +3,12 @@ $(document).foundation();
 var menuEl = $('.menu');
 var elem = new Foundation.OffCanvas(menuEl);
 
+var searchHistory = [];
 
 // Search functionality 
 var input = document.getElementById('search-input');
 
 input.addEventListener('keypress', function(event) {
-  console.log(event.key);
   if (event.key === 'Enter') {
     event.preventDefault();
     document.getElementById('search-button').click();
@@ -21,9 +21,49 @@ $(searchButtonEl).on("click",searchInputEl,function(){
 })
 
 function search(searchInputEl) {
-  var address = encodeURIComponent($(searchInputEl).val());
+  var address = encodeURIComponent($(searchInputEl).val().trim());
+  var addressStorage = $(searchInputEl).val().trim();
+
+  searchHistory.push(addressStorage);
+  console.log(searchHistory);
+  localStorage.setItem("autocompleteOptions", JSON.stringify(searchHistory));
 
   getRepresentatives(address);
 
-  location.href='./results.html';
+  // location.href='./results.html';
 }
+
+function loadStorage() {
+  var historyLoad = localStorage.getItem("autocompleteOptions");
+
+  if(!historyLoad) {
+    return false;
+  }
+
+  searchHistory=JSON.parse(historyLoad);  
+}
+
+function autocompleteMatch(input) {
+  if (input == '') {
+    return [];
+  }
+  var reg = new RegExp(input)
+  return searchHistory.filter(function(term) {
+	  if (term.match(reg)) {
+  	  return term;
+	  }
+  });
+}
+
+function showResults(val) {
+  res = document.getElementById("result");
+  res.innerHTML = '';
+  let list = '';
+  let terms = autocompleteMatch(val);
+  for (i=0; i<terms.length; i++) {
+    list += '<li>' + terms[i] + '</li>';
+  }
+  res.innerHTML = '<ul>' + list + '</ul>';
+}
+
+loadStorage();

@@ -107,6 +107,10 @@ main {
   margin-left: 38vw;
 }
 
+#search-bar {
+  display: flex;
+}
+
 .search input {
   background-color: var(--color-light);
   font-size: 0.8rem;
@@ -115,13 +119,35 @@ main {
   height: 2rem;
   border-radius: 15px;
 }
+#search-button.btn {
+  padding-left: 2%;
+  margin-bottom: 1rem;
+}
+
 
 #search-button a {
   color: var(--color-black);
-  padding-left: 2%;
   font-size: 1.5rem;
   opacity: 1;
 }
+
+/* AUTOCOMPLETE START */
+#result {
+  padding: 3px;
+}
+#result ul {
+  list-style-type: none;
+  padding-left: 1%;
+  margin: 0;
+  color: var(--color-light);
+}
+#result ul li {
+  padding: 5px 0;
+}
+#result ul li:hover {
+  background: var(--color-grey);
+}
+/* AUTOCOMPLETE END */
 
 @media only screen and (max-width: 762px) {
   .logo {

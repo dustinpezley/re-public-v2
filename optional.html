@@ -39,8 +39,13 @@
         <a href="#"><img class="logo animate__animated animate__fadeInLeft" src="assets/images/Republic_white_initial.png"><img class="logo animate__animated animate__fadeIn" src="assets/images/Republic_white_secondary.png"></a>
       </div>
       <div class="search">
-        <input type="address" placeholder="Please enter your full address" class="searchBox" id="search-input">
-        <button type="submit" class="btn" id="search-button"><a><i class="fa-solid fa-magnifying-glass"></a></i></button>
+        <form autocomplete="off">
+          <div id="search-bar">
+            <input type="text" name="q" onKeyUp="showResults(this.value)" placeholder="Please enter your full address" class="searchBox" id="search-input" />
+            <button type="submit" class="btn" id="search-button"><a><i class="fa-solid fa-magnifying-glass"></a></i></button>
+          </div>
+          <div id="result"></div>
+        </form>
       </div>
     </div>
     <button type="button" class="menu-btn button" data-toggle="offCanvas">Menu<i class="fa-solid fa-caret-down"></i></button>
