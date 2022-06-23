@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css">
     <title>RE:Public - Search Results</title>
 </head>
 <body>
@@ -25,20 +26,20 @@
                 <button class="btn" id="filter3">Filter 3</button>
             </div>
         </div>
-        <div id="govt-info">
-            <div id="local-info">
-                <span class="header">Local</span>
+        <div id="govt-info" class="accordion" data-accordion data-allow-all-closed="true">
+            <div id="local-info" class="accordion-item" data-accordion-item>
+               <a href="#" class="accordion-title">Local</a>
             </div>
-            <div id="state-info">
-                <span class="header">State</span>
+            <div id="state-info" class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">State</a>
             </div>
-            <div id="federal-info">
-                <span class="header">Federal</span>
+            <div id="federal-info"class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">Federal</a>
             </div>
         </div>
     </main>
-
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/js/foundation.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>

@@ -8,8 +8,7 @@ var searchInputEl = ('#search-input');
 var localBoxEl = $('#local-container');
 var stateBoxEl = $('#state-container');
 var federalBoxEl = $('#federal-container');
-// var contributionsEl = '';
-// var candidateSummaryEl = '';
+var govtInfoEl = $('#govt-info');
 
 // Variables needed in global scope
 var officeName = '';
@@ -255,6 +254,7 @@ function getLegislatorIDs(official_full, candidateSummaryEl, contributionsEl) {
 
           getCandSummary(openSecretsID, candidateSummaryEl);
           getCandContrib(openSecretsID, contributionsEl);
+          var elem = new Foundation.Accordion(govtInfoEl);
         })
       }
     })
