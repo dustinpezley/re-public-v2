@@ -1,11 +1,12 @@
+// Initialize Foundation
 $(document).foundation();
-
 
 // Element variables
 var localHeaderEl = $('#local-info');
 var stateHeaderEl = $('#state-info');
 var federalHeaderEl = $('#federal-info');
-var searchInputEl = ('#search-input');
+var searchInputEl = $('#search-input');
+var searchButtonEl = $('#search-button')
 var localBoxEl = $('#local-container');
 var stateBoxEl = $('#state-container');
 var federalBoxEl = $('#federal-container');
@@ -55,7 +56,7 @@ const proPublicaKey = '2pNm5c6OoX6Qs8joxqGptlpExvwrg9hxzGxzj3GE';
 const openSecretsKey = '790149a888a39934e82a2ad7234b7043';
 const govInfoKey = 'eEd0GvTqXamQlTNTBaSkUhVDEbfQrHIT6W1qxaZy';
 
-var address = '63119';
+// var address = '63119';
 
 function getRepresentatives(address) {
   let apiUrl = "https://www.googleapis.com/civicinfo/v2/representatives?address=25%20W%20Rose%20Ave%20Webster%20Groves%2C%20MO&key="+civicKey;
@@ -198,16 +199,13 @@ function getRepresentatives(address) {
   })
 }
 
-function search() {
-  var address = $(searchInputEl).val();
+function search(searchInputEl) {
+  var address = encodeURIComponent($(searchInputEl).val());
 
   getRepresentatives(address);
 
-  // document.location.replace('./results.html');
+  location.href='./results.html';
 }
-
-
-search(address);
 
 function getCandContrib (openSecretsID, contributionsEl) {
   let apiUrl = 'https://www.opensecrets.org/api/?method=candContrib&cid='+openSecretsID+'&output=json&apikey='+openSecretsKey;
@@ -303,3 +301,19 @@ function getCandSummary(openSecretsID, candidateSummaryEl) {
     }
   })
 }
+
+var input = document.getElementById('search-input');
+
+input.addEventListener('keypress', function(event) {
+  console.log(event.key);
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    document.getElementById('search-button').click();
+  }
+})
+
+$(searchButtonEl).on("click",searchInputEl,function(){
+  search(searchInputEl);
+  return false;
+})
+
