@@ -13,16 +13,23 @@
 </head>
 <body>
   <main>
-    <div class="menu off-canvas position-right" id="offCanvas" data-off-canvas>
+    <div class="menu off-canvas position-right align-center-middle" id="offCanvas" data-off-canvas data-transition="overlap">
       <div class="links">
-        <a href="https://www.usa.gov/register-to-vote" target="_blank" referrerpolicy="noreferrer" id="reg2vote">Register to Vote</a>
-        <div class="img-wrap">
+        <div class="img-wrap align-center">
+          <a href="https://www.usa.gov/register-to-vote" target="_blank" referrerpolicy="noreferrer" id="reg2vote"><i class="fa-solid fa-person-booth icon"></i></a>
+          <p class="img-description menu-text">Register to Vote</p>
+        </div>
+        <div class="img-wrap align-center">
           <a href="https://www.visitthecapitol.gov" id="capitol"><img class="icon" id="capital" src="./assets/images/Capitol.svg" alt="Capitol_Bldg"></a>
           <p class="img-description menu-text">The US Capitol</p>
         </div>
-        <div class="img-wrap">
+        <div class="img-wrap align-center">
           <a href="https://www.whitehouse.gov" id="white-house"><img class="icon" id="white-house" src="./assets/images/White House.svg" alt="White_House"></a>
           <p class="img-description menu-text">The White House</p>
+        </div>
+        <div class="img-wrap align-center">
+          <a href="./info.html" id="info"><i class="fa-solid fa-circle-info icon"></i></a>
+          <p class="img-description menu-text">Info/Credits</p>
         </div>
       </div>
       <button class="close-button" aria-label="Close menu" type="button" data-close><span aria-hidden="true">X</span></button>
@@ -33,7 +40,7 @@
       </div>
       <div class="search">
         <input type="address" placeholder="Please enter your full address" class="searchBox" id="search-input">
-        <button type="button" class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button type="submit" class="btn" id="search-button"><a><i class="fa-solid fa-magnifying-glass"></a></i></button>
       </div>
     </div>
     <button type="button" class="menu-btn button" data-toggle="offCanvas">Menu<i class="fa-solid fa-caret-down"></i></button>
