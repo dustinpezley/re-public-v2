@@ -35,18 +35,29 @@
       <button class="close-button" aria-label="Close menu" type="button" data-close><span aria-hidden="true">X</span></button>
     </div>
     <div class="off-canvas-content" data-off-canvas-content>
-      <div class="logo-container">
-        <a href="#"><img class="logo animate__animated animate__fadeInLeft" src="assets/images/Republic_white_initial.png"><img class="logo animate__animated animate__fadeIn" src="assets/images/Republic_white_secondary.png"></a>
+      <div id="landing-page">
+        <div class="logo-container">
+          <a href="#"><img class="logo animate__animated animate__fadeInLeft" src="assets/images/Republic_white_initial.png"><img class="logo animate__animated animate__fadeIn" src="assets/images/Republic_white_secondary.png"></a>
+        </div>
+        <div class="search">
+          <form autocomplete="off">
+            <div id="search-bar">
+              <input type="text" name="q" onKeyUp="showResults(this.value)" placeholder="Please enter your full address" class="searchBox" id="search-input" />
+              <button type="submit" class="btn" id="search-button"><a><i class="fa-solid fa-magnifying-glass"></a></i></button>
+            </div>
+            <div id="result"></div>
+          </form>
+        </div>
       </div>
-      <div class="search">
-        <form autocomplete="off">
-          <div id="search-bar">
-            <input type="text" name="q" onKeyUp="showResults(this.value)" placeholder="Please enter your full address" class="searchBox" id="search-input" />
-            <button type="submit" class="btn" id="search-button"><a><i class="fa-solid fa-magnifying-glass"></a></i></button>
-          </div>
-          <div id="result"></div>
-        </form>
-        <div id="dialog-modal" title="Request vetoed!">There was a problem with your request. Please ensure that you are using a correct, full address and try again.</div>
+      <div id="results-page">
+        <div id="govt-info" class="accordion">
+          <h2>Local</h2>
+              <div id="local-info"></div>
+          <h2>State</h2>
+              <div id="state-info"></div>
+          <h2>Federal</h2>
+              <div id="federal-info"></div>
+        </div>
       </div>
     </div>
     <button type="button" class="menu-btn button" data-toggle="offCanvas">Menu<i class="fa-solid fa-caret-down"></i></button>

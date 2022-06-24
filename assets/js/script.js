@@ -1,5 +1,11 @@
-// Import search functionality
-// import { search } from "./index.js";
+// Foundation elements
+$(document).foundation();
+var menuEl = $('.menu');
+var elem = new Foundation.OffCanvas(menuEl);  
+
+$(document).ready(function() {
+  showLanding();
+})
 
 // Element variables
 var localHeaderEl = $('#local-info');
@@ -13,6 +19,8 @@ var federalBoxEl = $('#federal-container');
 var govtInfoEl = $('#govt-info');
 var errorModalEl = $('#dialog-modal');
 var accordionEl = $('.accordion');
+var landingPageEl = $('#landing-page');
+var resultsPageEl = $('#results-page');
 
 $(document).ready(function() {
 //Initialize accordion
@@ -64,17 +72,8 @@ const proPublicaKey = '2pNm5c6OoX6Qs8joxqGptlpExvwrg9hxzGxzj3GE';
 const openSecretsKey = '790149a888a39934e82a2ad7234b7043';
 const govInfoKey = 'eEd0GvTqXamQlTNTBaSkUhVDEbfQrHIT6W1qxaZy';
 
-var address = JSON.parse(localStorage.getItem("tempSearch"));
-
 // define the modal
 $(errorModalEl).dialog({
-  buttons: [{
-    text: " Ok ",
-    click: function() {
-      $(this).dialog("close");
-      location.reload();
-    }
-  }],
   appendTo: ".search",
   autoOpen: false,
   resizeable: false,
@@ -85,7 +84,14 @@ $(errorModalEl).dialog({
   hide: {effect: "fadeOut", duration: 2},
   maxWidth: 500,
   minWidth: 200,
-  modal: true
+  modal: true,
+  buttons: [{
+    text: " Ok ",
+    click: function() {
+      $(this).dialog("close");
+      location.reload();
+    }
+  }]
 });
 
 // define accordion
@@ -94,12 +100,104 @@ $(accordionEl).accordion({
   animate: 50,
   collapsible: true,
   event: "click",
+  heightStyle: "content",
   header: "h2",
   icons: {"header": "ui-icon-caret-1-e", "activeHeader": "ui-icon-caret-1-s"}
 })
 
-function getRepresentatives() {
-  let apiUrl = "https://www.googleapis.com/civicinfo/v2/representatives?address=63119&key="+civicKey;
+// Index page and search history
+var searchHistory = [];
+
+// Search functionality 
+var input = document.getElementById('search-input');
+
+$(searchInputEl).on('keypress', function(event) {
+  if (event.which === 13) {
+    event.preventDefault();
+    document.getElementById('search-button').click();
+  }
+})
+
+$(searchButtonEl).on("click",searchInputEl,function(){
+  search(searchInputEl);
+  return false;
+})
+
+function search(searchInputEl) {
+  var address = encodeURIComponent($(searchInputEl).val());
+  var addressStorage = $(searchInputEl).val().trim();
+
+  searchHistory.push(addressStorage);
+  console.log(searchHistory);
+  localStorage.setItem("autocompleteOptions", JSON.stringify(searchHistory));
+  console.log(address);
+
+  getRepresentatives(address);
+}
+
+function loadStorage() {
+  var historyLoad = localStorage.getItem("autocompleteOptions");
+
+  if(!historyLoad) {
+    return false;
+  }
+
+  searchHistory=JSON.parse(historyLoad);  
+}
+
+function autocompleteMatch(input) {
+  if (input == '') {
+    return [];
+  }
+  var reg = new RegExp(input)
+  return searchHistory.filter(function(term) {
+	  if (term.match(reg)) {
+  	  return term;
+	  }
+  });
+}
+
+function showResults(val) {
+  res = document.getElementById("result");
+  res.innerHTML = '';
+  let list = '';
+  let terms = autocompleteMatch(val);
+  for (i=0; i<terms.length; i++) {
+    list += '<li class="result-item">' + terms[i] + '</li>';
+  }
+  res.innerHTML = '<ul class="result-list">' + list + '</ul>';
+}
+
+$('.result-list').on('click',function() {
+  var content = $(this).text();
+
+  $(searchInputEl).val(content);
+})
+
+loadStorage();
+
+function showLanding() {
+  $(landingPageEl)
+    .show()
+    .find("*").show();
+  $(resultsPageEl)
+    .hide()
+    .find("*").hide();
+}
+
+function showResultsPage() {
+  $(landingPageEl)
+    .hide()
+    .find("*").hide();
+  $(resultsPageEl)
+    .show()
+    .find("*").show();
+}
+
+function getRepresentatives(address) {
+  showResultsPage();
+
+  let apiUrl = "https://www.googleapis.com/civicinfo/v2/representatives?address="+address+"&key="+civicKey;
 
   // redirects to proxy server for CORS workaround
   jQuery.ajaxPrefilter(function(apiUrl) {
@@ -235,16 +333,14 @@ function getRepresentatives() {
 
           // Get ID information from API for Federal congressional members only
           getLegislatorIDs(official_full, candidateSummaryEl,contributionsEl);
-          localStorage.removeItem("tempSearch");
+          showResults();
         }
       })
     } else {
-      location.href='./optional.html';
       $(errorModalEl).dialog('open');
       return;
     }
   }).catch((error) => {
-    localStorage.removeItem("tempSearch");
     console.log(error);
     return;
   })
@@ -252,6 +348,7 @@ function getRepresentatives() {
 
 function getCandContrib (openSecretsID, contributionsEl) {
   let apiUrl = 'https://www.opensecrets.org/api/?method=candContrib&cid='+openSecretsID+'&output=json&apikey='+openSecretsKey;
+  
 
   fetch(apiUrl).then(function(response) {
     if(response.ok) {
@@ -283,7 +380,6 @@ function getCandContrib (openSecretsID, contributionsEl) {
         `);
       })
     } else {
-      location.href='./optional.html';
       $(errorModalEl).dialog('open');
       return;
     }
@@ -305,7 +401,6 @@ function getLegislatorIDs(official_full, candidateSummaryEl, contributionsEl) {
           getCandContrib(openSecretsID, contributionsEl);
         })
       } else {
-        location.href='./optional.html';
         $(errorModalEl).dialog('open');
         return;
       }
@@ -349,11 +444,8 @@ function getCandSummary(openSecretsID, candidateSummaryEl) {
           `)
       })
     } else {
-      location.href='./optional.html';
       $(errorModalEl).dialog('open');
       return;
     }
   })
 }
-
-getRepresentatives();

@@ -160,51 +160,51 @@ main {
   background-color: var(--color-grey);
   color: var(--color-light);
   padding: 15px;
-}
-
-.ui-widget:focus {
-  box-shadow: 0 0 0 5000px rgba(0,0,0,0.75);
+  overflow:scroll;
+  height: 100vh;
+  width: 90vw;
 }
 
 .ui-widget-header {
-  font-size: 1.5rem;
+  font-size: 1rem;
   text-align: center;
   margin-bottom: 5px;
 }
 
-.no-close .ui-dialog-titlebar-close {
-  display: none;
-}
-
 .ui-widget-content {
   font-size: 0.75rem;
-  text-align: center;
+  text-align: left;
   margin-bottom: 10px;
+  align-items:center;
+  border-top: solid 2px var(--color-blue);
 }
 
 .ui-corner-all {
   border-radius: 15px;
 }
 
-@media only screen and (max-width: 762px) {
-  .logo {
-    flex-shrink: 1;
-    margin-left: 10vw;
-    height: 4rem;
-    width: auto;
-  }
+#results-page {
+  display: none;
+  display: flex;
+}
 
-  .search {
-    margin-left: 20vw;
-  }
+.official-container {
+  align-items: center:
+}
 
-  .menu {
-    font-size: medium;
-  }
-  
-  .img-description {
-    visibility: visible;
-    opacity: 1;
-    padding-top: 0;
-  }
+.official-container h3 {
+  font-size: 1.5rem;
+}
+
+.official-container h4 {
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+.accordion h2 {
+  color: var(--color-light);
+  font-weight: bolder;
+  font-size: 1.5rem;
+  border-bottom: solid 1px var(--color-red);
+  background-color: var(--color-grey);
 }
