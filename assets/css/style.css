@@ -233,3 +233,29 @@ main {
   border-bottom: solid 1px var(--color-red);
   background-color: var(--color-grey);
 }
+  /* ACCORDION END */
+
+  /* MODAL START */
+#modal1 {
+  background: none;
+  color: var(--color-light);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  display: none;
+}
+
+#modal1 div {
+  position: absolute;
+  top: 30%;
+  left: 15%;
+}
+
+#modal1 button {
+  position:absolute;
+  top: 30%;
+  right: 25%;
+  font-size: 5rem;
+  color: var(--color-light);
+}
+  /* MODAL END */
