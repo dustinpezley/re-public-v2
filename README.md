@@ -24,5 +24,5 @@ https://dustinpezley.github.io/re-public-election-info/
 https://github.com/dustinpezley/re-public-election-info
 
 ## Contributors
-[Travis Witt](https://github.com/travis1308)
+[Travis Witt](https://github.com/travis1308)  
 [Dustin Pezley](https://github.com/dustinpezley)
