@@ -1,5 +1,5 @@
-// Initialize Foundation
-$(document).foundation();
+// Import search functionality
+// import { search } from "./index.js";
 
 // Element variables
 var localHeaderEl = $('#local-info');
@@ -12,6 +12,17 @@ var stateBoxEl = $('#state-container');
 var federalBoxEl = $('#federal-container');
 var govtInfoEl = $('#govt-info');
 var errorModalEl = $('#dialog-modal');
+var accordionEl = $('.accordion');
+
+$(document).ready(function() {
+//Initialize accordion
+$(accordionEl).accordion();
+$(localHeaderEl).on("accordionactivate", function() {});
+$(stateHeaderEl).on("accordionactivate", function() {});
+$(federalHeaderEl).on("accordionactivate", function() {});
+});
+
+
 
 // Variables needed in global scope
 var officeName = '';
@@ -53,6 +64,7 @@ const proPublicaKey = '2pNm5c6OoX6Qs8joxqGptlpExvwrg9hxzGxzj3GE';
 const openSecretsKey = '790149a888a39934e82a2ad7234b7043';
 const govInfoKey = 'eEd0GvTqXamQlTNTBaSkUhVDEbfQrHIT6W1qxaZy';
 
+var address = JSON.parse(localStorage.getItem("tempSearch"));
 
 // define the modal
 $(errorModalEl).dialog({
@@ -66,18 +78,28 @@ $(errorModalEl).dialog({
   appendTo: ".search",
   autoOpen: false,
   resizeable: false,
-  show: {effect: "fadeIn", duration: 0},
-  closeText: hide,
+  show: {effect: "fadeIn", duration: 2},
+  closeText: "hide",
   closeOnEscape: true,
   draggable: false,
-  hide: {effect: "fadeOut", duration: 0},
+  hide: {effect: "fadeOut", duration: 2},
   maxWidth: 500,
   minWidth: 200,
   modal: true
 });
 
-function getRepresentatives(address) {
-  let apiUrl = "https://www.googleapis.com/civicinfo/v2/representatives?address="+address+"&key="+civicKey;
+// define accordion
+$(accordionEl).accordion({
+  active: 0,
+  animate: 50,
+  collapsible: true,
+  event: "click",
+  header: "h2",
+  icons: {"header": "ui-icon-caret-1-e", "activeHeader": "ui-icon-caret-1-s"}
+})
+
+function getRepresentatives() {
+  let apiUrl = "https://www.googleapis.com/civicinfo/v2/representatives?address=63119&key="+civicKey;
 
   // redirects to proxy server for CORS workaround
   jQuery.ajaxPrefilter(function(apiUrl) {
@@ -86,7 +108,7 @@ function getRepresentatives(address) {
     }
   });
 
-
+  
   /* Levels:
       Country: Federal
       administrativeArea1: State
@@ -159,7 +181,7 @@ function getRepresentatives(address) {
 
           // Div definition for insert using template literal
           let htmlInsert = 
-          `<div class='official-container accordion-content' data-tab-content>
+          `<div class='official-container'>
             <h3 class='office-name'>${officeName}</h3>
             <h4 class='official-name'>${officialName}</h4>
             <p class='party'>${party}</p>
@@ -193,13 +215,13 @@ function getRepresentatives(address) {
           if(officeName === 'U.S. Senator' || officeName === 'U.S. Representative') {
             $(federalHeaderEl).append(`
               <div id='summary-container${[i]}'>
-                <div class='summary accordion-content' data-tab-content>
+                <div class='summary'>
                   <h4>Financial Summary</h4>
                 </div>
               </div>
             
               <div id='contributors-container${[i]}'>
-                <div class='contributors accordion-content' data-tab-content>
+                <div class='contributors'>
                   <h4>Top Contributors</h4>
                 </div>
               </div>
@@ -213,12 +235,18 @@ function getRepresentatives(address) {
 
           // Get ID information from API for Federal congressional members only
           getLegislatorIDs(official_full, candidateSummaryEl,contributionsEl);
+          localStorage.removeItem("tempSearch");
         }
       })
     } else {
+      location.href='./optional.html';
       $(errorModalEl).dialog('open');
       return;
     }
+  }).catch((error) => {
+    localStorage.removeItem("tempSearch");
+    console.log(error);
+    return;
   })
 }
 
@@ -254,6 +282,10 @@ function getCandContrib (openSecretsID, contributionsEl) {
         <p class='source'>${crpSource}</p>
         `);
       })
+    } else {
+      location.href='./optional.html';
+      $(errorModalEl).dialog('open');
+      return;
     }
   })
 }
@@ -271,15 +303,13 @@ function getLegislatorIDs(official_full, candidateSummaryEl, contributionsEl) {
 
           getCandSummary(openSecretsID, candidateSummaryEl);
           getCandContrib(openSecretsID, contributionsEl);
-          
-          var elem = new Foundation.Accordion(govtInfoEl);
         })
       } else {
-
+        location.href='./optional.html';
+        $(errorModalEl).dialog('open');
+        return;
       }
-    }).catch(
-
-    )
+    })
   }
 }
 
@@ -318,11 +348,12 @@ function getCandSummary(openSecretsID, candidateSummaryEl) {
             <p class='source'>${candidateSource}</p>
           `)
       })
+    } else {
+      location.href='./optional.html';
+      $(errorModalEl).dialog('open');
+      return;
     }
-  }).catch(
-
-  )
+  })
 }
 
-
-
+getRepresentatives();

@@ -21,16 +21,23 @@ $(searchButtonEl).on("click",searchInputEl,function(){
 })
 
 function search(searchInputEl) {
-  var address = encodeURIComponent($(searchInputEl).val().trim());
+  var address = encodeURIComponent($(searchInputEl).val());
   var addressStorage = $(searchInputEl).val().trim();
 
   searchHistory.push(addressStorage);
   console.log(searchHistory);
   localStorage.setItem("autocompleteOptions", JSON.stringify(searchHistory));
+  localStorage.setItem("tempSearch", JSON.stringify(address));
+  console.log(address);
 
-  getRepresentatives(address);
+  try {
+    getRepresentatives(address);
+  } catch (error) {
+    $(errorModalEl).dialog('open');
+    return;
+  }
 
-  // location.href='./results.html';
+  location.href='./results.html';
 }
 
 function loadStorage() {
