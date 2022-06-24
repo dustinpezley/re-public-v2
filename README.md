@@ -18,7 +18,11 @@ As a member of the electorate, I need to be able to see my elected officials and
 ![Re-Public](assets/images/screenshot3.JPG?raw=true "RE:Public Credits/Info")
 
 ## Link
-
+https://dustinpezley.github.io/re-public-election-info/
 
 ## Repo
 https://github.com/dustinpezley/re-public-election-info
+
+## Contributors
+[Travis Witt](https://github.com/travis1308)
+[Dustin Pezley](https://github.com/dustinpezley)
