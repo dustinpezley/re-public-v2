@@ -1,5 +1,5 @@
-// Initialize Foundation
-$(document).foundation();
+// Import search functionality
+// import { search } from "./index.js";
 
 // Element variables
 var localHeaderEl = $('#local-info');
@@ -14,8 +14,15 @@ var govtInfoEl = $('#govt-info');
 var errorModalEl = $('#dialog-modal');
 var accordionEl = $('.accordion');
 
+$(document).ready(function() {
 //Initialize accordion
 $(accordionEl).accordion();
+$(localHeaderEl).on("accordionactivate", function() {});
+$(stateHeaderEl).on("accordionactivate", function() {});
+$(federalHeaderEl).on("accordionactivate", function() {});
+});
+
+
 
 // Variables needed in global scope
 var officeName = '';
@@ -57,6 +64,7 @@ const proPublicaKey = '2pNm5c6OoX6Qs8joxqGptlpExvwrg9hxzGxzj3GE';
 const openSecretsKey = '790149a888a39934e82a2ad7234b7043';
 const govInfoKey = 'eEd0GvTqXamQlTNTBaSkUhVDEbfQrHIT6W1qxaZy';
 
+var address = JSON.parse(localStorage.getItem("tempSearch"));
 
 // define the modal
 $(errorModalEl).dialog({
@@ -90,8 +98,8 @@ $(accordionEl).accordion({
   icons: {"header": "ui-icon-caret-1-e", "activeHeader": "ui-icon-caret-1-s"}
 })
 
-function getRepresentatives(address) {
-  let apiUrl = "https://www.googleapis.com/civicinfo/v2/representatives?address="+address+"&key="+civicKey;
+function getRepresentatives() {
+  let apiUrl = "https://www.googleapis.com/civicinfo/v2/representatives?address=63119&key="+civicKey;
 
   // redirects to proxy server for CORS workaround
   jQuery.ajaxPrefilter(function(apiUrl) {
@@ -100,7 +108,7 @@ function getRepresentatives(address) {
     }
   });
 
-
+  
   /* Levels:
       Country: Federal
       administrativeArea1: State
@@ -227,12 +235,18 @@ function getRepresentatives(address) {
 
           // Get ID information from API for Federal congressional members only
           getLegislatorIDs(official_full, candidateSummaryEl,contributionsEl);
+          localStorage.removeItem("tempSearch");
         }
       })
     } else {
+      location.href='./optional.html';
       $(errorModalEl).dialog('open');
       return;
     }
+  }).catch((error) => {
+    localStorage.removeItem("tempSearch");
+    console.log(error);
+    return;
   })
 }
 
@@ -268,6 +282,10 @@ function getCandContrib (openSecretsID, contributionsEl) {
         <p class='source'>${crpSource}</p>
         `);
       })
+    } else {
+      location.href='./optional.html';
+      $(errorModalEl).dialog('open');
+      return;
     }
   })
 }
@@ -285,10 +303,11 @@ function getLegislatorIDs(official_full, candidateSummaryEl, contributionsEl) {
 
           getCandSummary(openSecretsID, candidateSummaryEl);
           getCandContrib(openSecretsID, contributionsEl);
-          var elem = new Foundation.Accordion(govtInfoEl)
         })
       } else {
-
+        location.href='./optional.html';
+        $(errorModalEl).dialog('open');
+        return;
       }
     })
   }
@@ -329,9 +348,12 @@ function getCandSummary(openSecretsID, candidateSummaryEl) {
             <p class='source'>${candidateSource}</p>
           `)
       })
+    } else {
+      location.href='./optional.html';
+      $(errorModalEl).dialog('open');
+      return;
     }
   })
 }
 
-
-
+getRepresentatives();
