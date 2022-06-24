@@ -11,99 +11,200 @@
   padding: 0;
 }
 
-nav {
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+body {
+  background: linear-gradient(-45deg, #541B10, #A83620, var(--color-red), var(--color-blue), #2591B6, #144E63);
+  background-size: 800% 800%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+main {
   display: flex;
-  justify-content:space-between;
+  height: 100%;
   align-items: center;
-  background-color: var(--color-grey);
+  justify-content: space-between;
 }
 
-.top-bar {
-  background-color: var(--color-grey);
+.menu-btn {
+  display: block;
+  writing-mode: vertical-rl;
+  background: none;
+  margin: 0 2rem 0 0;
+  padding: 0;
+  align-items: center;
+  transform: rotate(-90deg);
+  font-size: large;
 }
 
-#reg2vote {
-  align-self: center;
-  margin: 0 2rem 0 1rem;
+.menu-btn i {
+  margin-left: 0.5rem;
 }
 
-nav a {
-  color: var(--color-light);
-  padding-right: 1.5rem;
+.icon {
+  filter: brightness(0) saturate(1);
 }
 
-.img-wrap {
-  position: relative;
+#reg2vote i, #info i {
+  font-size: 3rem;
 }
 
 .img-description {
-  position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background: var(--color-grey);
-  color: var(--color-dark);
+  background: linear-gradient(270deg,#e6e6e6 0%, #e6e6e6 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: top;
   visibility: hidden;
   opacity: 0;
+  transition: all 0.3s ease-in ;
 }
 
-.federal-links {
-  flex-direction:column;
-  justify-content: center;
+.img-wrap:hover .img-description, .img-wrap:focus .img-description, .img-wrap:active .img-description {
+  visibility: visible;
+  background-size: 100% 0.2rem;
+  opacity: 1;
 }
 
-#white-house {
-  width: 95px;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+.logo-container {
+  margin-left: 18vw;
 }
 
-#capital {
-  width: 70px
+.animate__animated.animate__fadeInLeft {
+  animation-duration: 3s;
+  animation-delay: 150ms;
 }
 
-.logo {
-  height: 3rem;
-  width: auto;
-  margin-right: 2rem;
+.animate__animated.animate__fadeIn {
+  animation-duration: 1.5s;
+  animation-delay: 3s;
 }
 
-nav div {
+.search {
+  display:flex;
+  justify-content: flex-end;
+  align-self: center;
+  margin-top: 2%;
+  margin-left: 38vw;
+}
+
+#search-bar {
   display: flex;
-  align-items: flex-end;
 }
 
-.icon {
-  padding-right: 1.5rem;
-  filter: brightness(0) saturate(1) invert(1)
-}
-
-main {
+.search input {
   background-color: var(--color-light);
+  font-size: 0.8rem;
+  padding-left: 0.5rem;
+  width: 25rem;
+  height: 2rem;
+  border-radius: 15px;
+}
+#search-button.btn {
+  padding-left: 2%;
+  margin-bottom: 1rem;
 }
 
-#search-container {
-  display: flex;
-  justify-content: center;
+
+#search-button a {
+  color: var(--color-black);
+  font-size: 1.5rem;
+  opacity: 1;
 }
 
-#govt {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+/* AUTOCOMPLETE START */
+#result {
+  padding: 3px;
+  position: relative;
+}
+#result ul {
+  list-style-type: none;
+  padding-left: 1%;
+  margin: 0;
+  color: var(--color-light);
+  position: absolute;
+  overflow: visible;
+}
+#result ul li {
+  padding: 0.5rem 0.5rem;
+  margin-bottom: 1rem;
 }
 
-#govt div {
-  border: 1px solid var(--color-black);
+#result ul li:hover {
+  background: var(--color-grey);
+  border-radius: 15px;
+}
+/* AUTOCOMPLETE END */
+
+/* MODAL START */
+.ui-widget {
   background-color: var(--color-grey);
   color: var(--color-light);
+  padding: 15px;
+  overflow:scroll;
+  height: 100vh;
+  width: 90vw;
+}
+
+.ui-widget-header {
+  font-size: 1rem;
   text-align: center;
-  width: 300px;
-  height: 200px
+  margin-bottom: 5px;
 }
 
-.container-image {
-  max-width: 100px;
+.ui-widget-content {
+  font-size: 0.75rem;
+  text-align: left;
+  margin-bottom: 10px;
+  align-items:center;
+  border-top: solid 2px var(--color-blue);
 }
 
+.ui-corner-all {
+  border-radius: 15px;
+}
+
+#results-page {
+  display: none;
+  display: flex;
+}
+
+.official-container {
+  align-items: center:
+}
+
+.official-container h3 {
+  font-size: 1.5rem;
+}
+
+.official-container h4 {
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+.accordion h2 {
+  color: var(--color-light);
+  font-weight: bolder;
+  font-size: 1.5rem;
+  border-bottom: solid 1px var(--color-red);
+  background-color: var(--color-grey);
+}
