@@ -1,7 +1,9 @@
 // Foundation elements
 $(document).foundation();
 var menuEl = $('.menu');
-var elem = new Foundation.OffCanvas(menuEl);  
+var errorModalEl = $('#modal1')
+var elem = new Foundation.OffCanvas(menuEl); 
+var elem = new Foundation.Reveal(errorModalEl); 
 
 $(document).ready(function() {
   showLanding();
@@ -17,7 +19,7 @@ var localBoxEl = $('#local-container');
 var stateBoxEl = $('#state-container');
 var federalBoxEl = $('#federal-container');
 var govtInfoEl = $('#govt-info');
-var errorModalEl = $('#dialog-modal');
+// var errorModalEl = $('#dialog-modal');
 var accordionEl = $('.accordion');
 var landingPageEl = $('#landing-page');
 var resultsPageEl = $('#results-page');
@@ -72,28 +74,6 @@ const proPublicaKey = '2pNm5c6OoX6Qs8joxqGptlpExvwrg9hxzGxzj3GE';
 const openSecretsKey = '790149a888a39934e82a2ad7234b7043';
 const govInfoKey = 'eEd0GvTqXamQlTNTBaSkUhVDEbfQrHIT6W1qxaZy';
 
-// define the modal
-$(errorModalEl).dialog({
-  appendTo: ".search",
-  autoOpen: false,
-  resizeable: false,
-  show: {effect: "fadeIn", duration: 2},
-  closeText: "hide",
-  closeOnEscape: true,
-  draggable: false,
-  hide: {effect: "fadeOut", duration: 2},
-  maxWidth: 500,
-  minWidth: 200,
-  modal: true,
-  buttons: [{
-    text: " Ok ",
-    click: function() {
-      $(this).dialog("close");
-      location.reload();
-    }
-  }]
-});
-
 // define accordion
 $(accordionEl).accordion({
   active: 0,
@@ -127,10 +107,14 @@ function search(searchInputEl) {
   var address = encodeURIComponent($(searchInputEl).val());
   var addressStorage = $(searchInputEl).val().trim();
 
-  searchHistory.push(addressStorage);
-  console.log(searchHistory);
-  localStorage.setItem("autocompleteOptions", JSON.stringify(searchHistory));
-  console.log(address);
+  if (addressStorage === "") {
+    return;
+  } else if(searchHistory.includes(addressStorage,0)) {
+    // do nothing and continue
+  } else {
+    searchHistory.push(addressStorage);
+    localStorage.setItem("autocompleteOptions", JSON.stringify(searchHistory));
+  }
 
   getRepresentatives(address);
 }
@@ -162,17 +146,26 @@ function showResults(val) {
   res.innerHTML = '';
   let list = '';
   let terms = autocompleteMatch(val);
-  for (i=0; i<terms.length; i++) {
+  for (i=0; (i<terms.length && i<5); i++) {
     list += '<li class="result-item">' + terms[i] + '</li>';
   }
-  res.innerHTML = '<ul class="result-list">' + list + '</ul>';
+  res.innerHTML = '<ul id="result-list">' + list + '</ul>';
+
+  // Add event listener to populate the search box
+  var resultItem = document.querySelector(".result-item");
+  console.log(resultItem);
+  console.log(document.querySelector(".result-item"));
+
+  document.getElementById("result-list").addEventListener("click", function(e) {
+    e.preventDefault;
+    let value = e.target.textContent;
+    let searchInput = document.getElementById("search-input");
+
+    searchInput.value = value;
+    
+    search(searchInput);
+  })
 }
-
-$('.result-list').on('click',function() {
-  var content = $(this).text();
-
-  $(searchInputEl).val(content);
-})
 
 loadStorage();
 
@@ -192,6 +185,20 @@ function showResultsPage() {
   $(resultsPageEl)
     .show()
     .find("*").show();
+}
+
+function hideAll() {
+  $(landingPageEl)
+    .hide()
+    .find("*").hide();
+  $(resultsPageEl)
+    .hide()
+    .find("*").hide();
+}
+
+function getHostname(url) {
+  var hostname = url.match(/^https:\/\/[^/]+/);
+  return hostname ? hostname[0] : null;
 }
 
 function getRepresentatives(address) {
@@ -337,7 +344,11 @@ function getRepresentatives(address) {
         }
       })
     } else {
-      $(errorModalEl).dialog('open');
+      hideAll();
+      console.log(response);
+      $(errorModalEl).children("div").append(`<p class='error-details'>Location: ${(response.url.match(/^https:\/\/[^/]+/))}</p>`);
+      $(errorModalEl).children("div").append(`<p class='error-details'>Status code: ${response.status}</p>`)
+      $(errorModalEl).foundation('open');
       return;
     }
   }).catch((error) => {
@@ -364,9 +375,9 @@ function getCandContrib (openSecretsID, contributionsEl) {
           contributorHTML =
             `
             <h5>${contributorArray[j]['@attributes'].org_name}</h5><br />
-              <p class='total-contributions'>Total Contributions: <span class='total-cont-dollars'>${contributorArray[j]['@attributes'].total}</span></p>
-              <p class='individual-contributions'>Individual Contributions: <span class='indiv-cont-dollars'>${contributorArray[j]['@attributes'].indivs}</span></p>
-              <p class='pac-contributors'>PAC Contributions: <span class='pac-cont-dollars'>${contributorArray[j]['@attributes'].pacs}</span></p>
+              <p class='total-contributions'>Total Contributions: <span class='total-cont-dollars'>${formatter.format(contributorArray[j]['@attributes'].total)}</span></p>
+              <p class='individual-contributions'>Individual Contributions: <span class='indiv-cont-dollars'>${formatter.format(contributorArray[j]['@attributes'].indivs)}</span></p>
+              <p class='pac-contributors'>PAC Contributions: <span class='pac-cont-dollars'>${formatter.format(contributorArray[j]['@attributes'].pacs)}</span></p>
             `;
 
           // Append defined HTML to container element defined in search results
@@ -380,7 +391,11 @@ function getCandContrib (openSecretsID, contributionsEl) {
         `);
       })
     } else {
-      $(errorModalEl).dialog('open');
+      hideAll();
+      console.log(response);
+      $(errorModalEl).children("div").append(`<p class='error-details'>Location: ${(response.url.match(/^https:\/\/[^/]+/))}</p>`);
+      $(errorModalEl).children("div").append(`<p class='error-details'>Status code: ${response.status}</p>`)
+      $(errorModalEl).foundation('open');
       return;
     }
   })
@@ -401,12 +416,21 @@ function getLegislatorIDs(official_full, candidateSummaryEl, contributionsEl) {
           getCandContrib(openSecretsID, contributionsEl);
         })
       } else {
-        $(errorModalEl).dialog('open');
+        hideAll();
+        console.log(response);
+        $(errorModalEl).children("div").append(`<p class='error-details'>Location: ${(response.url.match(/^https:\/\/[^/]+/))}</p>`);
+        $(errorModalEl).children("div").append(`<p class='error-details'>Status code: ${response.status}</p>`)
+        $(errorModalEl).foundation('open');
         return;
       }
     })
   }
 }
+
+var formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD'
+});
 
 function getCandSummary(openSecretsID, candidateSummaryEl) {
   let apiUrl = 'http://www.opensecrets.org/api/?method=candSummary&cid='+openSecretsID+'&output=json&apikey='+openSecretsKey;
@@ -424,17 +448,16 @@ function getCandSummary(openSecretsID, candidateSummaryEl) {
         candidateSource = data.response.summary['@attributes'].source;
         candidateOrigin = data.response.summary['@attributes'].origin;
         candidateLastUpdated = data.response.summary['@attributes'].last_updated;
-        
+
         let summaryHTML = 
           `<p >First election (year): ${candidateFirstElected}</p>
           <p >Next election (year): ${candidateNextElection}</p>
-          <br /><br />
-          <p >Total receipts: ${candidateTotalReceipts}</p>
-          <br /><br />
-          <p >Cash on hand: ${candidateCash}</p>
-          <p >Total expenditures: ${candidateExpenditures}</p>
-          <p >Total debt: ${candidateDebt}</p>
-          <p class='last-updated'>${candidateLastUpdated}</p>
+          <br />
+          <p >Total receipts: ${formatter.format(candidateTotalReceipts)}</p>
+          <p >Cash on hand: ${formatter.format(candidateCash)}</p>
+          <p >Total expenditures: ${formatter.format(candidateExpenditures)}</p>
+          <p >Total debt: ${formatter.format(candidateDebt)}</p>
+          <p class='last-updated'>${formatter.format(candidateLastUpdated)}</p>
           `
 
           $(candidateSummaryEl).append(summaryHTML);
@@ -444,7 +467,11 @@ function getCandSummary(openSecretsID, candidateSummaryEl) {
           `)
       })
     } else {
-      $(errorModalEl).dialog('open');
+      hideAll();
+      console.log(response);
+      $(errorModalEl).children("div").append(`<p class='error-details'>Location: ${(response.url.match(/^https:\/\/[^/]+/))}</p>`);
+      $(errorModalEl).children("div").append(`<p class='error-details'>Status code: ${response.status}</p>`)
+      $(errorModalEl).foundation('open');
       return;
     }
   })
