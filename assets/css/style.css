@@ -257,7 +257,8 @@ main {
 }
 
 #social-media p {
-  line-height: 0;
+  line-height: 1;
+  margin: 0;
 }
 
 .congress-info {
@@ -270,7 +271,8 @@ main {
 }
 
 .congress-info-container p {
-  line-height: 0;
+  line-height: 1;
+  margin: 0;
 }
 
 .congress-info-container div h4 {
@@ -349,3 +351,87 @@ main {
   color: var(--color-light);
 }
   /* MODAL END */
+
+@media only screen and (max-width: 762px) {
+  .img-description {
+    visibility: visible;
+    opacity: 1;
+    font-size: 0.75rem;
+    margin-top: 0;
+  }
+
+  .icon {
+    font-size: 2rem;
+    margin-bottom: 0;
+  }
+
+  .ui-widget {
+    width: 85vw;
+  }
+
+  .ui-widget-content {
+    overflow-x: hidden;
+  }
+
+  .congress-info {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .congress-info-container {
+    width: 100%;
+  }
+
+  .congress-info-container div h4 {
+    font-size: 0.9rem;
+    margin-top: 2%;
+    border-bottom: dashed 1px var(--color-red);
+  }
+
+  .congress-info-container h5 {
+    font-size: 0.8rem;
+    text-decoration: underline var(--color-light);
+    margin-top: 5%;
+  }
+
+  .origin {
+    padding-top: 5%;
+  }
+
+  .source {
+    padding-top: 5%;
+    color: var(--color-red);
+  }
+}
+
+@media only screen and (max-width:375px) {
+  .logo-container{
+    margin-left: 8vw;
+  }
+
+  #logo1 {
+    height: 8vh;
+  }
+
+  #logo2 {
+    height: 8vh;
+  }
+
+  .search{
+    margin-left: 0;
+  }
+
+  .search input {
+    width: 60vw;
+    height: 1.5rem;
+  }
+
+  #search-button a {
+    font-size: 1.2rem;
+  }
+
+  .menu-btn {
+    margin-right: 1vw;
+    font-size: 0.75rem;
+  }
+}
