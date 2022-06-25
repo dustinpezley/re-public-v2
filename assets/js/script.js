@@ -26,10 +26,17 @@ var resultsPageEl = $('#results-page');
 
 $(document).ready(function() {
 //Initialize accordion
-$(accordionEl).accordion();
-$(localHeaderEl).on("accordionactivate", function() {});
-$(stateHeaderEl).on("accordionactivate", function() {});
-$(federalHeaderEl).on("accordionactivate", function() {});
+$(accordionEl).accordion({
+  collapsible: true,
+  active: 0,
+  animate: 120,
+  event: "click",
+  heightStyle: "conten",
+  header: "h2",
+});
+// $(localHeaderEl).on("accordionactivate", function() {});
+// $(stateHeaderEl).on("accordionactivate", function() {});
+// $(federalHeaderEl).on("accordionactivate", function() {});
 });
 
 
@@ -76,9 +83,9 @@ const govInfoKey = 'eEd0GvTqXamQlTNTBaSkUhVDEbfQrHIT6W1qxaZy';
 
 // define accordion
 $(accordionEl).accordion({
-  active: 0,
-  animate: 50,
   collapsible: true,
+  active: false,
+  animate: 120,
   event: "click",
   heightStyle: "content",
   header: "h2",
@@ -289,7 +296,7 @@ function getRepresentatives(address) {
           `<div class='official-container'>
             <h3 class='office-name'>${officeName}</h3>
             <h4 class='official-name'>${officialName}</h4>
-            <p class='party'>${party}</p>
+            <p class='party'>Party affiliation: ${party}</p>
             <div id='contact-info'>
               <address class='address'>
                 ${addressLine1}<br />
@@ -299,7 +306,7 @@ function getRepresentatives(address) {
               </address>
             </div>
             <div id='information'>
-              <p>Official website: ${officialWebsite}</p>
+              <p>Official website: <a href='${officialWebsite}' target='_blank'>${officialWebsite}</a></p>
             </div>
             <div id='social-media'>
               <p id='facebook'>Facebook: ${facebookId}</p>
@@ -319,18 +326,19 @@ function getRepresentatives(address) {
 
           if(officeName === 'U.S. Senator' || officeName === 'U.S. Representative') {
             $(federalHeaderEl).append(`
-              <div id='summary-container${[i]}'>
-                <div class='summary'>
-                  <h4>Financial Summary</h4>
+              <div class='congress-info'>
+                <div class='congress-info-container' id='summary-container${[i]}'>
+                  <div class='summary'>
+                    <h4>Financial Summary</h4>
+                  </div>
+                </div>
+              
+                <div class='congress-info-container' id='contributors-container${[i]}'>
+                  <div class='contributors'>
+                    <h4>Top Contributors</h4>
+                  </div>
                 </div>
               </div>
-            
-              <div id='contributors-container${[i]}'>
-                <div class='contributors'>
-                  <h4>Top Contributors</h4>
-                </div>
-              </div>
-            
             `);
           }
           let iterationString =  String([i])
@@ -374,7 +382,7 @@ function getCandContrib (openSecretsID, contributionsEl) {
         for(var j=0;j<contributorArray.length;j++) {
           contributorHTML =
             `
-            <h5>${contributorArray[j]['@attributes'].org_name}</h5><br />
+            <h5>${contributorArray[j]['@attributes'].org_name}</h5>
               <p class='total-contributions'>Total Contributions: <span class='total-cont-dollars'>${formatter.format(contributorArray[j]['@attributes'].total)}</span></p>
               <p class='individual-contributions'>Individual Contributions: <span class='indiv-cont-dollars'>${formatter.format(contributorArray[j]['@attributes'].indivs)}</span></p>
               <p class='pac-contributors'>PAC Contributions: <span class='pac-cont-dollars'>${formatter.format(contributorArray[j]['@attributes'].pacs)}</span></p>
@@ -385,9 +393,11 @@ function getCandContrib (openSecretsID, contributionsEl) {
         }
 
         $(contributionsEl).append(`
-        <p class='notice'>${crpNotice}</p>
-        <p class='origin'>${crpOrigin}</p>
-        <p class='source'>${crpSource}</p>
+        <div class='credits'>
+          <p class='notice'>${crpNotice}</p>
+          <p class='origin'>${crpOrigin}</p>
+          <p class='source'><a href='${crpSource}' target='_blank'>${crpSource}</a></p>
+        </div>
         `);
       })
     } else {
@@ -412,6 +422,7 @@ function getLegislatorIDs(official_full, candidateSummaryEl, contributionsEl) {
           openSecretsID = data[indexResult].id.opensecrets;
           bioGuideId = data[indexResult].id.bioguide;
 
+          console.log(openSecretsID);
           getCandSummary(openSecretsID, candidateSummaryEl);
           getCandContrib(openSecretsID, contributionsEl);
         })
@@ -450,20 +461,22 @@ function getCandSummary(openSecretsID, candidateSummaryEl) {
         candidateLastUpdated = data.response.summary['@attributes'].last_updated;
 
         let summaryHTML = 
-          `<p >First election (year): ${candidateFirstElected}</p>
-          <p >Next election (year): ${candidateNextElection}</p>
+          `<p>First election (year): ${candidateFirstElected}</p>
+          <p>Next election (year): ${candidateNextElection}</p>
           <br />
-          <p >Total receipts: ${formatter.format(candidateTotalReceipts)}</p>
-          <p >Cash on hand: ${formatter.format(candidateCash)}</p>
-          <p >Total expenditures: ${formatter.format(candidateExpenditures)}</p>
-          <p >Total debt: ${formatter.format(candidateDebt)}</p>
-          <p class='last-updated'>${formatter.format(candidateLastUpdated)}</p>
+          <p>Total receipts: ${formatter.format(candidateTotalReceipts)}</p>
+          <p>Cash on hand: ${formatter.format(candidateCash)}</p>
+          <p>Total expenditures: ${formatter.format(candidateExpenditures)}</p>
+          <p>Total debt: ${formatter.format(candidateDebt)}</p>
+          <p class='last-updated'>Information last updated: ${candidateLastUpdated}</p>
           `
 
           $(candidateSummaryEl).append(summaryHTML);
           $(candidateSummaryEl).append(`
-            <p class='origin'>${candidateOrigin}</p>
-            <p class='source'>${candidateSource}</p>
+            <div class='credits'>
+              <p class='origin'>${candidateOrigin}</p>
+              <p class='source'><a href='${candidateSource}' target='_blank'>${candidateSource}</a></p>
+            </div>
           `)
       })
     } else {
