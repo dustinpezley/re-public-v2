@@ -444,7 +444,7 @@ var formatter = new Intl.NumberFormat('en-US', {
 });
 
 function getCandSummary(openSecretsID, candidateSummaryEl) {
-  let apiUrl = 'http://www.opensecrets.org/api/?method=candSummary&cid='+openSecretsID+'&output=json&apikey='+openSecretsKey;
+  let apiUrl = 'https://www.opensecrets.org/api/?method=candSummary&cid='+openSecretsID+'&output=json&apikey='+openSecretsKey;
 
   fetch(apiUrl).then(function(response) {
     if(response.ok) {
