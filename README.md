@@ -14,7 +14,7 @@ As a member of the electorate, I need to be able to see my elected officials and
 
 ## Screenshot
 ![Re-Public](assets/images/screenshot1.JPG?raw=true "RE:Public Landing Page")
-![Re-Public](assets/images/Screenshot 2.png)
+![Re-Public Results Page](https://github.com/dustinpezley/re-public-election-info/blob/ed1eb897de0957bfbd32e5701727be872abeed81/assets/images/Screenshot%202.png)
 ![Re-Public](assets/images/screenshot3.JPG?raw=true "RE:Public Credits/Info")
 
 ## Link
